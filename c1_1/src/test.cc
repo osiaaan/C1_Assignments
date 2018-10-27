@@ -25,8 +25,8 @@ void printVector(std::vector<T> v)
 {
 
 Sparse m(3,3);
-Sparse n;
+m.addEntry(4.0,2,2);
 
 m.printMatrix();
-n.printMatrix();
+
 }

@@ -67,6 +67,8 @@ void Sparse::addEntry(double a, int i, int j)
 {
   std::vector<int> u = (*this).getIndex(i);
   std::vector<double> r = (*this).getRow(i);
+  r.push_back(a);
+  u.push_back(j);
   sparse_matrix_[i] = r;
   indexing_vector_[i] = u;
 }

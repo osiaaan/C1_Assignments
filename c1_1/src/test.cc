@@ -24,8 +24,11 @@ void printVector(std::vector<T> v)
  int main()
 {
 
-Sparse m(3,3);
-m.addEntry(4.0,2,2);
+Sparse m(5,6);
+m.addEntry(4.0,1,0);
+m.addEntry(4.0,1,2);
+m.addEntry(3.0,1,1);
+m.addEntry(2.0,1,0);
 
 m.printMatrix();
 

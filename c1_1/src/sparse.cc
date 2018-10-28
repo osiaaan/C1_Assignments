@@ -65,10 +65,45 @@ std::vector<int> Sparse::getIndex(int i)
 
 void Sparse::addEntry(double a, int i, int j)
 {
-  std::vector<int> u = (*this).getIndex(i);
+  std::vector<int> u = (*this).getIndex(i); //Here we're getting the index for row i
   std::vector<double> r = (*this).getRow(i);
-  r.push_back(a);
-  u.push_back(j);
+
+  //establishing iterators for index and row resp.
+  std::vector<int>::iterator it_u;
+  std::vector<double>::iterator it_r;
+  //initialisng the iterators to begin at their respective vectors
+  it_u = u.begin();
+  it_r = r.begin();
+
+  if(u.size() == 0)
+  {
+    u.insert(it_u,j);
+    r.insert(it_r,a);
+  }
+  else
+  {
+    for(int l = 0; l < (*this).getWidth(); ++l)
+    {
+      if(l == j)
+      {
+        if(l == *it_u)
+        {
+          u.erase(it_u);
+          r.erase(it_r);
+        }
+
+        u.insert(it_u,j);
+        r.insert(it_r,a);
+      }
+
+      else if(l == *it_u)
+      {
+        it_u = it_u + 1;
+        it_r = it_r +1;
+      }
+    }
+  }
+
   sparse_matrix_[i] = r;
   indexing_vector_[i] = u;
 }

@@ -32,12 +32,6 @@ Sparse::Sparse(const int N,const  int M) : N_length_(N), M_width_(M)
 
 //GETTERS
 
-//This will get the ijth entry.
-double Sparse::getEntry(int i, int j)
-{
-  double a =  0.0;
-  return a;  
-}
 
 //This returns the length of our matrix.
 int Sparse::getLength()
@@ -68,6 +62,30 @@ std::vector<int> Sparse::getIndex(int i)
   std::vector<int> v;
   v = indexing_vector_[i];
   return v;
+}
+
+//This will return the ijth entry of the Matrix
+double Sparse::getEntry(int i, int j)
+{
+  double a(0.0);
+  std::vector<int> index = (*this).getIndex(i);
+  std::vector<double> row = (*this).getRow(i);
+  int k_0 = 0;
+
+  if((*this).checkIndex(i) == true)
+  {
+      for(int k = 0 ; k < (*this).getLength(); k++)
+      {
+        if(j == index[k_0])
+        {
+          a = row[k_0];
+          break;
+        }
+        else if(k == index[k_0]){k_0++;}
+      }
+  }
+
+  return a;
 }
 
 //FUNCTIONS
@@ -157,8 +175,73 @@ void Sparse::printMatrix()
 
 }
 
+//This will check if we have ith row all zeroes, returning false if so
+bool Sparse::checkIndex(int i) //will check row "i+1" due to indexing starting at zero.
+{
+  bool indicator = true;
+
+  if(i > (*this).getLength() - 1)
+  {
+    std::cout << "You are checking for a row which does not exist." <<  std::endl;
+    std::cout << "The boolean will be returned as false." << std::endl;
+    indicator = false;
+  }
+  else
+  {
+    std::vector<int> index = (*this).getIndex(i);
+    if(index.size() == 0)
+    {
+      indicator = false;
+      std::cout << "This matrix has a zero row. "<< std::endl;
+    }
+  }
+
+  return indicator;
+}
+
+//This will check if our matrix has a zero row, returning false if so
+bool Sparse::checkMatrix()
+{
+  bool indicator = true;
+  for(int i = 0 ; i < (*this).getLength(); ++i)
+  {
+    indicator = (*this).checkIndex(i);
+    if(indicator == false)
+    {
+      break;
+    }
+  }
+}
+
+//This will check if our matrix has a zero in its diagonal, returning false if so
 bool Sparse::checkDiagonal()
 {
+  bool indicator = true;
+
+  for(int i = 0 ; i < (*this).getLength() ; ++i)
+  {
+    if((*this).checkDimension() == false)
+    {
+      std::cout << "boolean returned as false." << std::endl;
+      indicator = false;
+      break;
+    }
+
+    double a = (*this).getEntry(i,i);
+    if(a == 0)
+    {
+      std::cout << "There is a zero in the diagonal of this matrix." << std::endl;
+      indicator = false;
+      break;
+    }
+
+    if(indicator == true)
+    {
+      std::cout << "This matrix has non-zero diagonal elements." << std::endl;
+    }
+    return indicator;
+  }
+  /*
   int n = (*this).getLength();
   int k_0 = 0;
   bool indicator = true;
@@ -192,18 +275,53 @@ bool Sparse::checkDiagonal()
     std::cout<< "There was a zero diagonal element" << std::endl;
   }
   return indicator;
+  */
+}
+
+//This will check to see if the matrix is nxn, returning false if not
+bool Sparse::checkDimension()
+{
+  bool indicator = true;
+
+  int a((*this).getLength()), b((*this).getWidth());
+
+  if(a != b)
+  {
+    std::cout<< "This is not an nxn matrix!" << std::endl;
+    indicator = false;
+  }
+  else
+  {
+    std::cout <<"This is an nxn matrix!" <<std::endl;
+  }
+
+  return indicator;
+}
+
+//This will help us calculate the error later on
+double L_infinityNorm(std::vector<double> x) //take a wild guess
+{
+  double a = x[0];
+  for(int i = 1; i < x.size() ; ++i)
+  {
+      if(x[i] > a)
+      {
+        a = x[i];
+      }
+  }
+  return a;
 }
 
 //Here we implement out Gauss-Seidel algorithm.
+
 /*
 std::vector<double> Sparse::GaussSeidel(std::vector<double> x_0, std::vector<double> b)
 {
-
-  //First we need to check that the dimensions are correct! TO_DO
-  //Also need to do a check so that the diagonal entries are non zero
+  bool diagonal_indicator = (*this).checkDiagonal();
+  bool dimensionIndicator = (*this).checkDimension();
 
   //Here we put a while loop for tolerance
-int n((*this.getLength())); //Assuming now that A is nxn, x_0 nx1
+  int n = (*this).getLength();
 
 for(int i = 0; i < n; ++i)
 {
@@ -225,15 +343,7 @@ for(int i = 0; i < n; ++i)
     }
   }
   }
-
-  for(int l = 0; l < i+1 ; ++i) //Finding the index corresponding to the a_iith element.
-  {
-    if(l == index[k_0] )
-    {
-    ++k_0;
-    }
-  }
-  double oneOver_a_ii = 1/row[k_0];
+  double oneOver_a_ii = 1/(*this).getEntry(i,i);
   x_0[i] = oneOver_a_ii*(b[i] - sum);
 }
 //Here we end the while loop for tolerance

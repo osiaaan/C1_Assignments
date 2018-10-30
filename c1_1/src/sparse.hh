@@ -35,9 +35,13 @@
 
    //FUNCTIONS
 
+
    void printMatrix();
    void addEntry(double a, int i, int j);
-   bool checkDiagonal();
+   bool checkIndex(int i); //check if we have ith row all zeroes, returns false if so
+   bool checkMatrix();//check if it has a zero row, returns false if so
+   bool checkDiagonal();//check if matrix has a zero in diagonal, returns false if so
+   bool checkDimension();//checks if the matrix is nxn, returns false if not
    std::vector<double> GaussSeidel(std::vector<double> x_0, std::vector<double> b);
 
 private:
@@ -50,5 +54,7 @@ private:
    std::vector<std::vector<double>> sparse_matrix_;
    std::vector<std::vector<int>>  indexing_vector_;
  };
+
+
 
  #endif

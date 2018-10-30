@@ -11,6 +11,8 @@
 #include<vector>
 #include"sparse.hh"
 
+
+
 template <class T>
 void printVector(std::vector<T> v)
 {
@@ -24,9 +26,16 @@ void printVector(std::vector<T> v)
  int main()
 {
 
-Sparse m;
-m.addEntry(4.0,0,0);
+
+
+Sparse m(3,4);
+m.addEntry(1,1,0);
+
+std::cout << m.getEntry(1,0) << std::endl;
+std::cout << " " << std::endl;
+
 m.checkDiagonal();
+//m.checkDimension();
 
 
 m.printMatrix();

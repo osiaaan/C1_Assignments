@@ -26,9 +26,10 @@ void printVector(std::vector<T> v)
  int main()
 {
 
+std::vector<double> v = {1,2,3};
+std::vector<double> u;
 
-
-Sparse m(3,4);
+Sparse m;
 m.addEntry(1,1,0);
 
 std::cout << m.getEntry(1,0) << std::endl;
@@ -36,8 +37,12 @@ std::cout << " " << std::endl;
 
 m.checkDiagonal();
 //m.checkDimension();
+u = m.matrixVectorMult(v);
 
+printVector(u);
 
 m.printMatrix();
+
+
 
 }

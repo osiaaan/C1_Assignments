@@ -298,6 +298,28 @@ bool Sparse::checkDimension()
   return indicator;
 }
 
+//This will compute Ax
+std::vector<double> Sparse::matrixVectorMult(std::vector<double>x)
+{
+int n = (*this).getLength();
+int m = (*this).getWidth();
+std::vector<double> y (n);
+double sum;
+
+for(int i = 0 ; i < (*this).getLength() ; ++i)
+{
+  sum = 0.0;
+  for(int j = 0 ; j < (*this).getWidth() ; ++j)
+  {
+    double a = (*this).getEntry(i,j);
+    sum += x[j]*a;
+  }
+  y[i] = sum;
+}
+
+return y;
+}
+
 //This will help us calculate the error later on
 double L_infinityNorm(std::vector<double> x) //take a wild guess
 {

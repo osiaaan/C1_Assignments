@@ -178,9 +178,9 @@ void Sparse::printMatrix()
     {
       for(int j = 0 ; j < (*this).getWidth() ; ++j)
       {
-        std::cout << std::setw(3) << std::left << "0 ";
+        std::cout << "0 ";
       }
-      std::cout << std::setw(3) << std::left << "" << std::endl;
+      std::cout << " " << std::endl;
       continue;
     }
     else
@@ -190,15 +190,15 @@ void Sparse::printMatrix()
     {
       if(j == index_i[k])
       {
-        std::cout << std::setw(3) << std::left <<  row_i[k];
+        std::cout <<  row_i[k] << " ";
         k += 1;//now looking at the next entry of index_i
       }
       else
       {
-        std::cout << std::setw(3) << std::left <<  "0 ";
+        std::cout <<  "0 ";
       }
     }
-    std::cout << std::setw(3) << std::left <<  "" << std::endl;
+    std::cout << " " << std::endl;
     }
   }
 

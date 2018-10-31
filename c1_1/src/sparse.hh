@@ -9,6 +9,8 @@
  #include<cmath>
  #include<vector>
  #include<math.h>
+ #include<iomanip>
+#include<fstream>
  /*
  class: CLASS_SPARSE
 
@@ -34,7 +36,8 @@
    double getEntry(int i, int j);
 
    //OPERATOR OVERLOADING
-   std::vector<double> operator*(std::vector<double> source);
+
+   std::vector<double> operator*(std::vector<double> source); //computes Ax
 
    //FUNCTIONS
 

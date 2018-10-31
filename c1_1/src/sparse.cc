@@ -1,23 +1,22 @@
 #include "sparse.hh"
 
-  double const TOL = 1e-15;
+double const TOL = 1e-6;
 
 //CONSTRUCTORS
 
 //This is the default constructor. It gives us the 3x3 identity.
 Sparse::Sparse() : N_length_(3), M_width_(3)
 {
-  // By default we get the 3x3 identity matrix
-std::vector<double> v1(1),v2(1),v3(1);
-std::vector<int> i1(3),i2(3),i3(3);
-v1 = {1};
-v2 = {1};
-v3 = {1};
-i1 = {0};
-i2 = {1};
-i3 = {2};
-sparse_matrix_ = {v1,v2,v3};
-indexing_vector_ = {i1,i2,i3};
+  std::vector<double> v1(1),v2(1),v3(1);
+  std::vector<int> i1(3),i2(3),i3(3);
+  v1 = {1};
+  v2 = {1};
+  v3 = {1};
+  i1 = {0};
+  i2 = {1};
+  i3 = {2};
+  sparse_matrix_ = {v1,v2,v3};
+  indexing_vector_ = {i1,i2,i3};
 }
 
 //This is the copy constructor.
@@ -33,7 +32,6 @@ Sparse::Sparse(const int N,const  int M) : N_length_(N), M_width_(M)
 }
 
 //GETTERS
-
 
 //This returns the length of our matrix.
 int Sparse::getLength()
@@ -95,6 +93,13 @@ double Sparse::getEntry(int i, int j)
 //This will let us compute Ax
 std::vector<double> Sparse::operator*(std::vector<double> x)
 {
+  if(x.size() != (*this).getWidth())
+  {
+    std::cout << "Dimensions for multiplication are not correct." << std::endl;
+    std::cout << "Original vector returned." << std::endl;
+    return x;
+  }
+
   int n = (*this).getLength();
   int m = (*this).getWidth();
   std::vector<double> y (n);
@@ -112,7 +117,6 @@ std::vector<double> Sparse::operator*(std::vector<double> x)
   }
   return y;
 }
-
 
 //FUNCTIONS
 
@@ -174,9 +178,9 @@ void Sparse::printMatrix()
     {
       for(int j = 0 ; j < (*this).getWidth() ; ++j)
       {
-        std::cout<< "0 ";
+        std::cout << std::setw(3) << std::left << "0 ";
       }
-      std::cout << " " << std::endl;
+      std::cout << std::setw(3) << std::left << "" << std::endl;
       continue;
     }
     else
@@ -186,15 +190,15 @@ void Sparse::printMatrix()
     {
       if(j == index_i[k])
       {
-        std::cout << row_i[k] << " ";
+        std::cout << std::setw(3) << std::left <<  row_i[k];
         k += 1;//now looking at the next entry of index_i
       }
       else
       {
-        std::cout << "0 ";
+        std::cout << std::setw(3) << std::left <<  "0 ";
       }
     }
-    std::cout << " " << std::endl;
+    std::cout << std::setw(3) << std::left <<  "" << std::endl;
     }
   }
 
@@ -304,7 +308,6 @@ bool Sparse::checkDiagonal()
   return indicator;
   */
 
-
 //This will check to see if the matrix isn't nxn, returning false if so
 bool Sparse::checkDimension()
 {
@@ -314,12 +317,12 @@ bool Sparse::checkDimension()
 
   if(a != b)
   {
-    std::cout<< "This is not an nxn matrix!" << std::endl;
+    std::cout<< "This is not an nxn matrix." << std::endl;
     indicator = false;
   }
   else
   {
-    std::cout <<"This is an nxn matrix!" <<std::endl;
+    std::cout <<"This is an nxn matrix." <<std::endl;
   }
 
   return indicator;
@@ -357,9 +360,17 @@ std::vector<double> minus(std::vector<double> x, std::vector<double> y)
   }
 }
 
+//Prints out our vector
+void print_Vector(std::vector<double> v)
+{
+  for( double n : v )
+  {
+    std::cout << n << " ";
+  }
+  std::cout << '\n';
+}
+
 //Here we implement out Gauss-Seidel algorithm.
-
-
 std::vector<double> Sparse::GaussSeidel(std::vector<double> x_k, std::vector<double> b)
 {
 
@@ -372,7 +383,7 @@ std::vector<double> Sparse::GaussSeidel(std::vector<double> x_k, std::vector<dou
 
   //Now we implement our algorithm
 
-  int MaxIter = 1000; //This is our maximum number of iterations
+  int MaxIter = 5000; //This is our maximum number of iterations
   int it = 0; //This counts the number of iterations
 
    //std::vector<double> x_k; //our approximation
@@ -398,7 +409,22 @@ std::vector<double> Sparse::GaussSeidel(std::vector<double> x_k, std::vector<dou
      it++;//counting the iteration
   }
 
- std::cout << "number of iterations: " << it << std::endl;
- std::cout << "The residual error is: " << infinityNorm(r) << std::endl;
+ if(it == MaxIter)
+ {
+    std::cout << "Maximum number of iterations reached. Approximation not within tolerance." << std::endl;
+    std::cout << "number of iterations: " << it << std::endl;
+    std::cout << "The residual error is: " << infinityNorm(r) << std::endl;
+ }
+ else
+ {
+   std::cout << "number of iterations: " << it << std::endl;
+   std::cout << "The residual error is: " << infinityNorm(r) << std::endl;
+ }
+
+ std::cout << "Our matrix is:" << std::endl;
+ (*this).printMatrix();
+ std::cout << "The approximation is: " << std::endl;
+ print_Vector(x_k);
+
  return x_k;
 }

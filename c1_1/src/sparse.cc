@@ -325,12 +325,12 @@ return y;
 //This will help us calculate the error later on
 double infinityNorm(std::vector<double> x) //take a wild guess
 {
-  double a = abs(x[0]);
+  double a = fabs(x[0]);
   for(int i = 1; i < x.size() ; ++i)
   {
       if(abs(x[i]) > a)
       {
-        a = abs(x[i]);
+        a = fabs(x[i]);
       }
   }
   return a;
@@ -357,8 +357,8 @@ std::vector<double> minus(std::vector<double> x, std::vector<double> y)
 //Here we implement out Gauss-Seidel algorithm.
 
 
-//std::vector<double> Sparse::GaussSeidel(std::vector<double> x_0, std::vector<double> b)
-//{
+std::vector<double> Sparse::GaussSeidel(std::vector<double> x_0, std::vector<double> b)
+{
   /*
   bool diagonal_indicator = (*this).checkDiagonal();
   bool dimensionIndicator = (*this).checkDimension();
@@ -371,7 +371,7 @@ std::vector<double> minus(std::vector<double> x, std::vector<double> y)
 return x_0;
  */
 
-/*
+
  std::vector<double> x_k=  x_0; //our approximation
  std::vector<double> r = minus(b,(*this).matrixVectorMult(x_k)); //The residaul
  int n = (*this).getLength();
@@ -399,5 +399,3 @@ return x_0;
 
  return x_k;
 }
-
-*/

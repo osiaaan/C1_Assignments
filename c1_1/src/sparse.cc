@@ -383,7 +383,7 @@ std::vector<double> Sparse::GaussSeidel(std::vector<double> x_k, std::vector<dou
 
   //Now we implement our algorithm
 
-  int MaxIter = 5000; //This is our maximum number of iterations
+  int MaxIter = 50000; //This is our maximum number of iterations
   int it = 0; //This counts the number of iterations
 
    //std::vector<double> x_k; //our approximation
@@ -421,8 +421,8 @@ std::vector<double> Sparse::GaussSeidel(std::vector<double> x_k, std::vector<dou
    std::cout << "The residual error is: " << infinityNorm(r) << std::endl;
  }
 
- std::cout << "Our matrix is:" << std::endl;
- (*this).printMatrix();
+ //std::cout << "Our matrix is:" << std::endl;
+ //(*this).printMatrix();
  std::cout << "The approximation is: " << std::endl;
  print_Vector(x_k);
 

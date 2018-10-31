@@ -26,7 +26,7 @@ void printVector(std::vector<double> v)
  int main()
 {
 
-const unsigned int N = 3;//dimension
+const unsigned int N = 1000;//dimension
 const  double delta = 1;//constant
 double a = 4*(1-delta);
 
@@ -86,7 +86,16 @@ for( double n : x )
   n= 0.0;
 }
 
-
 std::vector<double> y = A.GaussSeidel(x,b);
+
+std::cout << " " << std::endl;
+
+printVector(w);
+
+std::cout << " " << std::endl;
+
+std::cout << "The error between our approximation and the real solution is: " << infinityNorm(minus(w,y))<< std::endl;
+
+
 
 }

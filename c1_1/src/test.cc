@@ -13,10 +13,9 @@
 
 
 
-template <class T>
-void printVector(std::vector<T> v)
+void printVector(std::vector<double> v)
 {
-  for( int n : v )
+  for( double n : v )
   {
     std::cout << n << " ";
   }
@@ -47,15 +46,22 @@ m.printMatrix();
 */
 
 
-Sparse m;
-/*
-m.addEntry(1,0,0);
-m.addEntry(2,0,1);
-m.addEntry(1,1,1);
-*/
-std::vector<double> b = {1,2,1};
+Sparse m(3,3);
+
+
+
+std::vector<double> b = {0,0,1};
 std::vector<double> x = {0,0,0};
-m.addEntry(5,0,1);
+
+
+m.addEntry(2,0,0);
+m.addEntry(-1,0,1);
+m.addEntry(-1,1,0);
+m.addEntry(2,1,1);
+m.addEntry(-1,1,2);
+m.addEntry(-1,2,1);
+m.addEntry(2,2,2);
+//std::cout << m.getEntry(2,2) << std::endl;
 //m.addEntry(2,1,2);
 //m.addEntry(1,2,0);
 //double a = infinityNorm(b);

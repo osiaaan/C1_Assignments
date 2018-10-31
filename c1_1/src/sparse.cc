@@ -1,6 +1,6 @@
 #include "sparse.hh"
 
-  double const TOL = 1e-3;
+  double const TOL = 1e-15;
 
 //CONSTRUCTORS
 
@@ -89,6 +89,30 @@ double Sparse::getEntry(int i, int j)
 
   return a;
 }
+
+//OPERATOR OVERLOADING
+
+//This will let us compute Ax
+std::vector<double> Sparse::operator*(std::vector<double> x)
+{
+  int n = (*this).getLength();
+  int m = (*this).getWidth();
+  std::vector<double> y (n);
+  double sum;
+
+  for(int i = 0 ; i < n ; ++i)
+  {
+    sum = 0.0;
+    for(int j = 0 ; j < m ; ++j)
+    {
+      double a = (*this).getEntry(i,j);
+      sum += x[j]*a;
+    }
+    y[i] = sum;
+  }
+  return y;
+}
+
 
 //FUNCTIONS
 
@@ -219,23 +243,24 @@ bool Sparse::checkMatrix()
 bool Sparse::checkDiagonal()
 {
   bool indicator = true;
+  if((*this).checkDimension() == false)
+  {
+    std::cout << "boolean returned as false." << std::endl;
+    indicator = false;
+    return indicator;
+  }
 
   for(int i = 0 ; i < (*this).getLength() ; ++i)
   {
-    if((*this).checkDimension() == false)
-    {
-      std::cout << "boolean returned as false." << std::endl;
-      indicator = false;
-      break;
-    }
-
     double a = (*this).getEntry(i,i);
+
     if(a == 0)
     {
       std::cout << "There is a zero in the diagonal of this matrix." << std::endl;
       indicator = false;
       break;
     }
+  }
 
     if(indicator == true)
     {
@@ -278,9 +303,9 @@ bool Sparse::checkDiagonal()
   }
   return indicator;
   */
-}
 
-//This will check to see if the matrix is nxn, returning false if not
+
+//This will check to see if the matrix isn't nxn, returning false if so
 bool Sparse::checkDimension()
 {
   bool indicator = true;
@@ -300,35 +325,13 @@ bool Sparse::checkDimension()
   return indicator;
 }
 
-//This will compute Ax
-std::vector<double> Sparse::matrixVectorMult(std::vector<double>x)
-{
-int n = (*this).getLength();
-int m = (*this).getWidth();
-std::vector<double> y (n);
-double sum;
-
-for(int i = 0 ; i < n ; ++i)
-{
-  sum = 0.0;
-  for(int j = 0 ; j < m ; ++j)
-  {
-    double a = (*this).getEntry(i,j);
-    sum += x[j]*a;
-  }
-  y[i] = sum;
-}
-
-return y;
-}
-
 //This will help us calculate the error later on
 double infinityNorm(std::vector<double> x) //take a wild guess
 {
   double a = fabs(x[0]);
   for(int i = 1; i < x.size() ; ++i)
   {
-      if(abs(x[i]) > a)
+      if(fabs(x[i]) > a)
       {
         a = fabs(x[i]);
       }
@@ -357,45 +360,45 @@ std::vector<double> minus(std::vector<double> x, std::vector<double> y)
 //Here we implement out Gauss-Seidel algorithm.
 
 
-std::vector<double> Sparse::GaussSeidel(std::vector<double> x_0, std::vector<double> b)
+std::vector<double> Sparse::GaussSeidel(std::vector<double> x_k, std::vector<double> b)
 {
-  /*
-  bool diagonal_indicator = (*this).checkDiagonal();
-  bool dimensionIndicator = (*this).checkDimension();
 
-  //Here we put a while loop for tolerance
-  int n = (*this).getLength();
-  int MaxIter = 1000;
-  int iter = 0;
+  //We first check if ther is a zero in the diagonal, and see if dimensions are correct
+  if((*this).checkDiagonal() == false)
+  {
+    std::cout << "The original guess has been returned." << std::endl;
+    return x_k;
+  }
 
-return x_0;
- */
+  //Now we implement our algorithm
+
+  int MaxIter = 1000; //This is our maximum number of iterations
+  int it = 0; //This counts the number of iterations
+
+   //std::vector<double> x_k; //our approximation
+   std::vector<double> r = minus(b,(*this)*x_k); //The residaul
+   int n = (*this).getLength();
 
 
- std::vector<double> x_k=  x_0; //our approximation
- std::vector<double> r = minus(b,(*this).matrixVectorMult(x_k)); //The residaul
- int n = (*this).getLength();
- int it = 0;
-
- for(int l = 0; l < 1000; l++)
- {
-   for(unsigned int i = 0; i < n; ++i)
+   while(infinityNorm(r) > TOL && it < MaxIter)
    {
-     double sum = 0.0;
-     for(unsigned int j = 0; j < n ; j++ )
+     for(unsigned int i = 0; i < n; ++i)
      {
-       if(j != i)
+       double sum = 0.0; //initialisng our sum to be zero
+       for(unsigned int j = 0; j < n ; j++ )
        {
-       sum += x_k[j]*( (*this).getEntry(i,j) );
+         if(j != i)
+         {
+           sum += x_k[j]*( (*this).getEntry(i,j) );
+         }
        }
+       x_k[i] = (b[i] - sum)/((*this).getEntry(i,i));//updating our approximation
      }
-     x_k[i] = (b[i] - sum)/((*this).getEntry(i,i));
-   }
-   r = minus(b, (*this).matrixVectorMult(x_k));
-   it++;
+     r = minus(b, (*this)*x_k);//updating the residual
+     it++;//counting the iteration
+  }
 
- } //while(infinityNorm(r) > TOL);
  std::cout << "number of iterations: " << it << std::endl;
-
+ std::cout << "The residual error is: " << infinityNorm(r) << std::endl;
  return x_k;
 }

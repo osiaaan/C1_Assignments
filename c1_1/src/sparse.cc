@@ -1,5 +1,7 @@
 #include "sparse.hh"
 
+  double const TOL = 1e-3;
+
 //CONSTRUCTORS
 
 //This is the default constructor. It gives us the 3x3 identity.
@@ -67,21 +69,21 @@ std::vector<int> Sparse::getIndex(int i)
 //This will return the ijth entry of the Matrix
 double Sparse::getEntry(int i, int j)
 {
-  double a(0.0);
-  std::vector<int> index = (*this).getIndex(i);
-  std::vector<double> row = (*this).getRow(i);
-  int k_0 = 0;
+  double a = 0.0;
+  std::vector<int> index = (*this).getIndex(i); //ith index#
+  std::vector<double> row = (*this).getRow(i); //ith row
+  int k_0 = 0;//indicator
 
   if((*this).checkIndex(i) == true)
   {
-      for(int k = 0 ; k < (*this).getLength(); k++)
+      for(int k = 0 ; k < (*this).getWidth(); k++)
       {
         if(j == index[k_0])
         {
           a = row[k_0];
           break;
         }
-        else if(k == index[k_0]){k_0++;}
+        else if((k == index[k_0]) && (k_0 < index.size() - 1)){k_0++;} //should probably have used an iterator...
       }
   }
 
@@ -306,10 +308,10 @@ int m = (*this).getWidth();
 std::vector<double> y (n);
 double sum;
 
-for(int i = 0 ; i < (*this).getLength() ; ++i)
+for(int i = 0 ; i < n ; ++i)
 {
   sum = 0.0;
-  for(int j = 0 ; j < (*this).getWidth() ; ++j)
+  for(int j = 0 ; j < m ; ++j)
   {
     double a = (*this).getEntry(i,j);
     sum += x[j]*a;
@@ -321,53 +323,81 @@ return y;
 }
 
 //This will help us calculate the error later on
-double L_infinityNorm(std::vector<double> x) //take a wild guess
+double infinityNorm(std::vector<double> x) //take a wild guess
 {
-  double a = x[0];
+  double a = abs(x[0]);
   for(int i = 1; i < x.size() ; ++i)
   {
-      if(x[i] > a)
+      if(abs(x[i]) > a)
       {
-        a = x[i];
+        a = abs(x[i]);
       }
   }
   return a;
 }
 
+//This will let us negate vector y from vector x
+std::vector<double> minus(std::vector<double> x, std::vector<double> y)
+{
+  if(x.size() != y.size())
+  {
+    std::cout << "These vectors are not of the same size. Returned original vector. \n";
+    return x;
+  }
+  else
+  {
+  for( int i = 0 ; i < x.size() ; ++i )
+    {
+      x[i] = x[i] - y[i];
+    }
+    return x;
+  }
+}
+
 //Here we implement out Gauss-Seidel algorithm.
 
-/*
-std::vector<double> Sparse::GaussSeidel(std::vector<double> x_0, std::vector<double> b)
-{
+
+//std::vector<double> Sparse::GaussSeidel(std::vector<double> x_0, std::vector<double> b)
+//{
+  /*
   bool diagonal_indicator = (*this).checkDiagonal();
   bool dimensionIndicator = (*this).checkDimension();
 
   //Here we put a while loop for tolerance
   int n = (*this).getLength();
+  int MaxIter = 1000;
+  int iter = 0;
 
-for(int i = 0; i < n; ++i)
-{
-  std::vector<int> index_i = (*this).getIndex(i);
-  std::vector<double> row_i =(*this).getRow(i);
+return x_0;
+ */
 
-  double sum = 0.0; //This will be our sum, also ressets to zero
-  int k = 0; //This indicator will help us find the nozero elements of the row.
-  int k_0 = 0; // This indicator will help us find a_ii index.
+/*
+ std::vector<double> x_k=  x_0; //our approximation
+ std::vector<double> r = minus(b,(*this).matrixVectorMult(x_k)); //The residaul
+ int n = (*this).getLength();
+ int it = 0;
 
-  for(int j = 0; j < n; ++j)
-  {
-  if(j != i)
-  {
-    if(j == index[k]) //if the ijth element nonzero
-    {
-    sum += x_0[j]*row_i[k];// past sumand + new entry
-    ++k;
-    }
-  }
-  }
-  double oneOver_a_ii = 1/(*this).getEntry(i,i);
-  x_0[i] = oneOver_a_ii*(b[i] - sum);
+ for(int l = 0; l < 1000; l++)
+ {
+   for(unsigned int i = 0; i < n; ++i)
+   {
+     double sum = 0.0;
+     for(unsigned int j = 0; j < n ; j++ )
+     {
+       if(j != i)
+       {
+       sum += x_k[j]*( (*this).getEntry(i,j) );
+       }
+     }
+     x_k[i] = (b[i] - sum)/((*this).getEntry(i,i));
+   }
+   r = minus(b, (*this).matrixVectorMult(x_k));
+   it++;
+
+ } //while(infinityNorm(r) > TOL);
+ std::cout << "number of iterations: " << it << std::endl;
+
+ return x_k;
 }
-//Here we end the while loop for tolerance
-}
+
 */

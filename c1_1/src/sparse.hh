@@ -8,7 +8,7 @@
  #include<iostream>
  #include<cmath>
  #include<vector>
-
+ #include<math.h>
  /*
  class: CLASS_SPARSE
 

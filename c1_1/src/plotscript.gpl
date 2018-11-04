@@ -1,0 +1,25 @@
+set terminal pdf
+set output 'function.pdf'
+set logscale
+
+plot 'residual.dat' using 1:2 with lines
+
+set xdata time
+set timefmt "%S"
+set xlabel "time"
+
+set autoscale
+
+set ylabel "highest seq number"
+set format y "%s"
+
+set title "seq number over time"
+set key reverse Left outside
+set grid
+
+set style data linespoints
+
+plot "residual0.dat" using 1:2 with lines, \
+     "residual1.dat" using 1:2 with lines, \
+     "residual2.dat" using 1:2 with lines, \
+     "residual3.dat" using 1:2 with lines

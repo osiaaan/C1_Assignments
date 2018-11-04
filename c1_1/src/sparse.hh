@@ -61,8 +61,9 @@ private:
    std::vector<std::vector<int>>  indexing_vector_;
  };
 
- double infinityNorm(std::vector<double> x);
-
-
+double infinityNorm(std::vector<double> x);
+std::vector<double> minus(std::vector<double> x, std::vector<double> y);
+void printVector(std::vector<double> v);
+void data(std::vector<std::vector<double>> R);
 
  #endif

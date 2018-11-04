@@ -168,19 +168,21 @@ void Sparse::addEntry(double a, int i, int j)
 //This will print our sparse matrix in a recognisable form.
 void Sparse::printMatrix()
 {
-  for(int i = 0 ; i < (*this).getLength() ; ++i) // choosing row i
+
+  for(int i = 0 ; i < N_length_ ; ++i) // choosing row i
   {
-    std::vector<double> row_i = (*this).getRow(i); //setting row_i to be the ith vector of sparse_matrix_
-    std::vector<int> index_i = (*this).getIndex(i);//setting index_i to be the ith vector of indexing_vector_
+    std::vector<double> row_i = sparse_matrix_[i]; //setting row_i to be the ith vector of sparse_matrix_
+    std::vector<int> index_i = indexing_vector_[i];//setting index_i to be the ith vector of indexing_vector_
     int k = 0;//this will help us keep track of whether to print out a zero or an entry from sparse_matrix_
 
     if(index_i.size() == 0)
     {
       for(int j = 0 ; j < (*this).getWidth() ; ++j)
       {
+        std::cout << std::setw(5);
         std::cout << "0 ";
       }
-      std::cout << " " << std::endl;
+      //std::cout << " " << std::endl;
       continue;
     }
     else
@@ -190,14 +192,17 @@ void Sparse::printMatrix()
     {
       if(j == index_i[k])
       {
-        std::cout <<  row_i[k] << " ";
+        std::cout << std::setw(5);
+        std::cout <<  row_i[k] << "";
         k += 1;//now looking at the next entry of index_i
       }
       else
       {
+        std::cout << std::setw(5);
         std::cout <<  "0 ";
       }
     }
+    std::cout << std::setw(5);
     std::cout << " " << std::endl;
     }
   }
@@ -361,13 +366,46 @@ std::vector<double> minus(std::vector<double> x, std::vector<double> y)
 }
 
 //Prints out our vector
-void print_Vector(std::vector<double> v)
+void printVector(std::vector<double> v)
 {
   for( double n : v )
   {
     std::cout << n << " ";
   }
   std::cout << '\n';
+}
+
+//This function will make a data file for the residual error
+void data(std::vector<std::vector<double>> R)
+{
+
+  for(int j = 0 ; j < R.size() ; ++j)
+  {
+    std::vector<double> y = R[j];
+    std::vector<double> index;
+
+    //This is indexing the iterations
+    for( int i = 0 ; i < y.size() ; i++ )
+    {
+       index.emplace_back(i);
+    }
+
+    std::string myStr = std::to_string(j);
+    std::string res = "residual" + myStr + ".dat";
+    std::ofstream myFile;
+    myFile.open(res.c_str());
+
+    if( !myFile.good() )
+    {
+       std::cout << "Failed to open file." << std::endl;
+    }
+
+    for(int i = 0 ; i < y.size() ; i++)
+    {
+    myFile << index[i] << '\t' << y[i] << std::endl;
+    }
+    myFile.close();
+  }
 }
 
 //Here we implement out Gauss-Seidel algorithm.
@@ -383,29 +421,32 @@ std::vector<double> Sparse::GaussSeidel(std::vector<double> x_k, std::vector<dou
 
   //Now we implement our algorithm
 
-  int MaxIter = 50000; //This is our maximum number of iterations
+  int MaxIter = 10000; //This is our maximum number of iterations
   int it = 0; //This counts the number of iterations
 
    //std::vector<double> x_k; //our approximation
    std::vector<double> r = minus(b,(*this)*x_k); //The residaul
-   int n = (*this).getLength();
-
+   int n = N_length_;
+   std::vector<double> residual = {infinityNorm(r)};
 
    while(infinityNorm(r) > TOL && it < MaxIter)
    {
      for(unsigned int i = 0; i < n; ++i)
      {
+       int size = sparse_matrix_[i].size();
        double sum = 0.0; //initialisng our sum to be zero
-       for(unsigned int j = 0; j < n ; j++ )
+       for(unsigned int j = 0; j < size ; j++ )
        {
-         if(j != i)
+         if(indexing_vector_[i][j] != i)
          {
-           sum += x_k[j]*( (*this).getEntry(i,j) );
+           sum += x_k[indexing_vector_[i][j]]*sparse_matrix_[i][j];
          }
        }
        x_k[i] = (b[i] - sum)/((*this).getEntry(i,i));//updating our approximation
      }
      r = minus(b, (*this)*x_k);//updating the residual
+     residual.emplace_back(infinityNorm(r));
+      //std::cout << it << std::endl;
      it++;//counting the iteration
   }
 
@@ -423,8 +464,8 @@ std::vector<double> Sparse::GaussSeidel(std::vector<double> x_k, std::vector<dou
 
  //std::cout << "Our matrix is:" << std::endl;
  //(*this).printMatrix();
- std::cout << "The approximation is: " << std::endl;
- print_Vector(x_k);
+ //std::cout << "The approximation is: " << std::endl;
+ //print_Vector(x_k);
 
- return x_k;
+ return residual;
 }

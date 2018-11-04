@@ -376,7 +376,7 @@ void printVector(std::vector<double> v)
 }
 
 //This function will make a data file for the residual error
-void data(std::vector<std::vector<double>> R)
+void data(std::vector<std::vector<double>> R, std::string s)
 {
 
   for(int j = 0 ; j < R.size() ; ++j)
@@ -391,7 +391,7 @@ void data(std::vector<std::vector<double>> R)
     }
 
     std::string myStr = std::to_string(j);
-    std::string res = "residual" + myStr + ".dat";
+    std::string res = "residual_" + s + myStr + ".dat";
     std::ofstream myFile;
     myFile.open(res.c_str());
 
@@ -421,13 +421,13 @@ std::vector<double> Sparse::GaussSeidel(std::vector<double> x_k, std::vector<dou
 
   //Now we implement our algorithm
 
-  int MaxIter = 10000; //This is our maximum number of iterations
+  int MaxIter = 100000; //This is our maximum number of iterations
   int it = 0; //This counts the number of iterations
 
    //std::vector<double> x_k; //our approximation
    std::vector<double> r = minus(b,(*this)*x_k); //The residaul
    int n = N_length_;
-   std::vector<double> residual = {infinityNorm(r)};
+   std::vector<double> residual;
 
    while(infinityNorm(r) > TOL && it < MaxIter)
    {
@@ -463,7 +463,7 @@ std::vector<double> Sparse::GaussSeidel(std::vector<double> x_k, std::vector<dou
  }
 
  //std::cout << "Our matrix is:" << std::endl;
- //(*this).printMatrix();
+//(*this).printMatrix();
  //std::cout << "The approximation is: " << std::endl;
  //print_Vector(x_k);
 

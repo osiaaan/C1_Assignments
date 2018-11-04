@@ -64,6 +64,6 @@ private:
 double infinityNorm(std::vector<double> x);
 std::vector<double> minus(std::vector<double> x, std::vector<double> y);
 void printVector(std::vector<double> v);
-void data(std::vector<std::vector<double>> R);
+void data(std::vector<std::vector<double>> R, std::string s);
 
  #endif

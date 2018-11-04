@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.3)  4 NOV 2018 13:28
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.3)  4 NOV 2018 16:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -278,11 +278,25 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 LaTeX Font Info:    Try loading font information for U+msb on input line 11.
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
+) <function.pdf, id=13, 361.35pt x 216.81pt>
+File: function.pdf Graphic file (type pdf)
+<use function.pdf>
+Package pdftex.def Info: function.pdf used on input line 30.
+(pdftex.def)             Requested size: 169.0519pt x 101.43094pt.
+<function2.pdf, id=14, 361.35pt x 216.81pt>
+File: function2.pdf Graphic file (type pdf)
+<use function2.pdf>
+Package pdftex.def Info: function2.pdf used on input line 31.
+(pdftex.def)             Requested size: 169.0519pt x 101.43094pt.
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 39.
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./function.pdf> <./functio
+n2.pdf
+
+pdfTeX warning: pdflatex (file ./function2.pdf): PDF inclusion: multiple pdfs w
+ith page group included in a single page
+>]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 39.
 (./report.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 39.
@@ -292,24 +306,25 @@ Package rerunfilecheck Info: File `report.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 39.
  ) 
 Here is how much of TeX's memory you used:
- 5941 strings out of 493029
- 85142 string characters out of 6136234
- 169244 words of memory out of 5000000
- 9421 multiletter control sequences out of 15000+600000
+ 5956 strings out of 493029
+ 85354 string characters out of 6136234
+ 169423 words of memory out of 5000000
+ 9432 multiletter control sequences out of 15000+600000
  11495 words of font info for 45 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 29i,6n,28p,239b,324s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 29i,6n,28p,324b,328s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texli
 ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/
 fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmr9.pfb>
-Output written on report.pdf (1 page, 74830 bytes).
+ype1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmsy7.pfb>
+Output written on report.pdf (1 page, 113527 bytes).
 PDF statistics:
- 51 PDF objects out of 1000 (max. 8388607)
- 40 compressed objects within 1 object stream
- 5 named destinations out of 1000 (max. 500000)
- 17 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 74 PDF objects out of 1000 (max. 8388607)
+ 56 compressed objects within 1 object stream
+ 6 named destinations out of 1000 (max. 500000)
+ 27 words of extra memory for PDF output out of 10000 (max. 10000000)
 

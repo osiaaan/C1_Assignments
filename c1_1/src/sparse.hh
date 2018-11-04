@@ -10,7 +10,8 @@
  #include<vector>
  #include<math.h>
  #include<iomanip>
-#include<fstream>
+ #include<fstream>
+ #include<chrono>
  /*
  class: CLASS_SPARSE
 
@@ -61,9 +62,13 @@ private:
    std::vector<std::vector<int>>  indexing_vector_;
  };
 
-double infinityNorm(std::vector<double> x);
-std::vector<double> minus(std::vector<double> x, std::vector<double> y);
-void printVector(std::vector<double> v);
-void data(std::vector<std::vector<double>> R, std::string s);
+double infinityNorm(std::vector<double> x); //computes the L_infinity norm of the vector
+
+std::vector<double> minus(std::vector<double> x, std::vector<double> y);//negates vector y from x
+
+template <class T>
+void printVector(std::vector<T> v);//prints the vector v
+
+void data(std::vector<std::vector<double>> R, std::string s);//creates datafiles residual_"s""i"
 
  #endif

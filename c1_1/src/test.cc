@@ -11,23 +11,20 @@
 #include<vector>
 #include"sparse.hh"
 
-// auto start = std@@chrono::high_resolution_clock::now();
+
 //auto finish = std::chrono::high_resolution_clock::now();
 // elapsed.count();
 
-
-
-
  int main()
 {
-
+const unsigned int N = 100;//dimension
 std::vector<double> delta = {0.1 ,0.5 , 1.0, 5 , 10};
 std::vector<double> lambda = {0.1 ,0.5 , 1.0, 5 , 10};
 std::vector<std::vector<double>> R1, R2;
 
 for(int i = 0 ; i < delta.size() ; ++i)
 {
-  const unsigned int N = 20;//dimension
+  std::cout << "delta = " << delta[i] << "" <<std::endl;
   const  double delta_ = delta[i];//constant
   double a = 4*(1-delta_);
 
@@ -99,7 +96,7 @@ data(R1,"delta");
 
 for(int l = 0 ; l < lambda.size() ; ++l)
 {
-  const unsigned int N = 20;//dimension
+  std::cout << "lambda = " << lambda[l] << "" <<std::endl;
   const  double delta_ = 1;//constant
   double a = 4*(1-delta_);
 

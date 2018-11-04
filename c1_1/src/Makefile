@@ -11,7 +11,7 @@ PROGRAM=myprogram
 OBJS=test.o sparse.o
 
 # additional variables
-CPPFLAGS=-std=c++11
+CPPFLAGS=-std=c++0x
 
 all: $(REPORT)
 
@@ -30,7 +30,7 @@ $(PROGRAM): $(OBJS)
 	g++ $(CPPFLAGS) $(OBJS) -o $(PROGRAM)
 
 $(OBJS): %.o: %.cc
-	g++ $(CPPFLAGS) -c $^ -o $@
+	g++ -O3 $(CPPFLAGS) -c $^ -o $@
 
 clean:
 	rm -rf $(OBJS) $(PROGRAM) $(REPORT) $(RESULTS) $(PLOTS)

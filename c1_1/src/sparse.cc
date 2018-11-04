@@ -1,5 +1,6 @@
 #include "sparse.hh"
 
+//This is the fixed tolerance for the ierations in Gauss Seidel
 double const TOL = 1e-6;
 
 //CONSTRUCTORS
@@ -67,21 +68,25 @@ std::vector<int> Sparse::getIndex(int i)
 //This will return the ijth entry of the Matrix
 double Sparse::getEntry(int i, int j)
 {
-  double a = 0.0;
-  std::vector<int> index = (*this).getIndex(i); //ith index#
-  std::vector<double> row = (*this).getRow(i); //ith row
-  int k_0 = 0;//indicator
+  double a = 0.0; //the default returned value will be zero
+  std::vector<int> index = indexing_vector_[i]; //ith index
+  std::vector<double> row = sparse_matrix_[i]; //ith row
+  std::vector<int>::iterator it; //iterator for index
+  std::vector<double>::iterator ro = row.begin(); //iterator for row
 
+  //first we check if the row has any non-zero values
   if((*this).checkIndex(i) == true)
   {
-      for(int k = 0 ; k < (*this).getWidth(); k++)
+      for(it=index.begin(); it!=index.end() ;++it)
       {
-        if(j == index[k_0])
+        //check if we've found the jth element of the ith row,...
+        if(j == *it)
         {
-          a = row[k_0];
+          //...if so, we return that value
+          a = *ro;
           break;
         }
-        else if((k == index[k_0]) && (k_0 < index.size() - 1)){k_0++;} //should probably have used an iterator...
+        else{++ro;} //if necessary, we move to the next element of the row vector
       }
   }
 
@@ -173,36 +178,37 @@ void Sparse::printMatrix()
   {
     std::vector<double> row_i = sparse_matrix_[i]; //setting row_i to be the ith vector of sparse_matrix_
     std::vector<int> index_i = indexing_vector_[i];//setting index_i to be the ith vector of indexing_vector_
-    int k = 0;//this will help us keep track of whether to print out a zero or an entry from sparse_matrix_
+    std::vector<int>::iterator it = index_i.begin(); //iterator for index
+    std::vector<double>::iterator ro = row_i.begin();//iterator for the row
 
+    //If the we have a zero row then we print all zeroes
     if(index_i.size() == 0)
     {
-      for(int j = 0 ; j < (*this).getWidth() ; ++j)
+      for(int j = 0 ; j < M_width_ ; ++j)
       {
-        std::cout << std::setw(5);
-        std::cout << "0 ";
+        std::cout << std::setw(3);
+        std::cout << "0";
       }
-      //std::cout << " " << std::endl;
+      std::cout << " " << std::endl;
       continue;
     }
     else
     {
-
-    for(int j = 0 ; j < (*this).getWidth() ; ++j)
+    for(int j = 0 ; j < M_width_ ; ++j)
     {
-      if(j == index_i[k])
+      if(j == *it)//if there's a value, we print it
       {
-        std::cout << std::setw(5);
-        std::cout <<  row_i[k] << "";
-        k += 1;//now looking at the next entry of index_i
+        std::cout << std::setw(3);
+        std::cout << *ro;
+        it++;//now looking at the next entry of index_i
+        ro++;//and also move to the next value of row
       }
-      else
+      else//otherwise we print out a zero
       {
-        std::cout << std::setw(5);
-        std::cout <<  "0 ";
+        std::cout << std::setw(3);
+        std::cout <<  "0";
       }
     }
-    std::cout << std::setw(5);
     std::cout << " " << std::endl;
     }
   }
@@ -366,22 +372,26 @@ std::vector<double> minus(std::vector<double> x, std::vector<double> y)
 }
 
 //Prints out our vector
-void printVector(std::vector<double> v)
+template <class T>
+void printVector(std::vector<T> v)
 {
-  for( double n : v )
+  for( T n : v )
   {
     std::cout << n << " ";
   }
   std::cout << '\n';
 }
 
-//This function will make a data file for the residual error
+/*This function will make data files for the residual error
+with respect to different parameters.
+These will be used later by gnuplot.
+The string will make the data file name distinct.*/
 void data(std::vector<std::vector<double>> R, std::string s)
 {
 
   for(int j = 0 ; j < R.size() ; ++j)
   {
-    std::vector<double> y = R[j];
+    std::vector<double> y = R[j];//y is the jth vector
     std::vector<double> index;
 
     //This is indexing the iterations
@@ -390,16 +400,23 @@ void data(std::vector<std::vector<double>> R, std::string s)
        index.emplace_back(i);
     }
 
+    /*The index is turned into a string so we can reference
+    it in the data file.*/
     std::string myStr = std::to_string(j);
+    //This will help us distinguish data files from each other.
     std::string res = "residual_" + s + myStr + ".dat";
     std::ofstream myFile;
+    //Here we open a file with the desired name
     myFile.open(res.c_str());
 
+    //We check if the file has opened correctly
     if( !myFile.good() )
     {
        std::cout << "Failed to open file." << std::endl;
     }
 
+    /*Here we input the data.
+    This is the iteration and its respective residual error.*/
     for(int i = 0 ; i < y.size() ; i++)
     {
     myFile << index[i] << '\t' << y[i] << std::endl;
@@ -408,7 +425,10 @@ void data(std::vector<std::vector<double>> R, std::string s)
   }
 }
 
-//Here we implement out Gauss-Seidel algorithm.
+/*Here we implement out Gauss-Seidel algorithm.
+It will return a vector consisting of the residual error
+for each iteration in order.
+It's size will be the number of iterations*/
 std::vector<double> Sparse::GaussSeidel(std::vector<double> x_k, std::vector<double> b)
 {
 
@@ -424,48 +444,51 @@ std::vector<double> Sparse::GaussSeidel(std::vector<double> x_k, std::vector<dou
   int MaxIter = 100000; //This is our maximum number of iterations
   int it = 0; //This counts the number of iterations
 
-   //std::vector<double> x_k; //our approximation
    std::vector<double> r = minus(b,(*this)*x_k); //The residaul
    int n = N_length_;
    std::vector<double> residual;
 
+   /*While the error is not under tolerance and the Maximum
+   number of iterations has not been met... */
    while(infinityNorm(r) > TOL && it < MaxIter)
    {
      for(unsigned int i = 0; i < n; ++i)
      {
-       int size = sparse_matrix_[i].size();
-       double sum = 0.0; //initialisng our sum to be zero
-       for(unsigned int j = 0; j < size ; j++ )
+       //initialisng our sum to be zero
+       double sum = 0.0;
+       //for loop over the length of the ith row vector
+       for(unsigned int j = 0; j < sparse_matrix_[i].size() ; j++ )
        {
+         /*As long as the indexing does not represent a diagonal entry...*/
          if(indexing_vector_[i][j] != i)
          {
            sum += x_k[indexing_vector_[i][j]]*sparse_matrix_[i][j];
          }
        }
-       x_k[i] = (b[i] - sum)/((*this).getEntry(i,i));//updating our approximation
+       //here we update our approximation
+       x_k[i] = (b[i] - sum)/((*this).getEntry(i,i));
      }
-     r = minus(b, (*this)*x_k);//updating the residual
+     //updating the residual
+     r = minus(b, (*this)*x_k);
+     //here we add this iterations residual error to our error vector
      residual.emplace_back(infinityNorm(r));
-      //std::cout << it << std::endl;
-     it++;//counting the iteration
+     //documenting that this iteration is finished
+     it++;
   }
 
+ //if the maximum number of iterations has been met, we let the user know
  if(it == MaxIter)
  {
     std::cout << "Maximum number of iterations reached. Approximation not within tolerance." << std::endl;
     std::cout << "number of iterations: " << it << std::endl;
     std::cout << "The residual error is: " << infinityNorm(r) << std::endl;
  }
+ //if our residual error is within tolerance...
  else
  {
    std::cout << "number of iterations: " << it << std::endl;
    std::cout << "The residual error is: " << infinityNorm(r) << std::endl;
  }
-
- //std::cout << "Our matrix is:" << std::endl;
-//(*this).printMatrix();
- //std::cout << "The approximation is: " << std::endl;
- //print_Vector(x_k);
 
  return residual;
 }

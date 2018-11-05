@@ -48,7 +48,8 @@
    bool checkMatrix();//check if it has a zero row, returns false if so
    bool checkDiagonal();//check if matrix has a zero in diagonal, returns false if so
    bool checkDimension();//checks if the matrix is nxn, returns false if not
-   std::vector<double> GaussSeidel(std::vector<double> x_0, std::vector<double> b);
+   std::vector<double> diag();
+   std::vector<std::vector<double>> GaussSeidel(std::vector<double> x_k, std::vector<double> b);
   // Sparse tridiagonal(double delta);
 
 private:

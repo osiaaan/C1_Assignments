@@ -10,8 +10,8 @@ set title "Residual Error over Iterations"
 set key reverse Left outside
 set grid
 
-plot "residual_delta0.dat" using 1:2 with lines title "delta = 0.1", \
-     "residual_delta1.dat" using 1:2 with lines title "delta = 0.5", \
+plot "residual_delta0.dat" using 1:2 with lines title "delta = 0.01", \
+     "residual_delta1.dat" using 1:2 with lines title "delta = 0.1", \
      "residual_delta2.dat" using 1:2 with lines title "delta = 1", \
-     "residual_delta3.dat" using 1:2 with lines title "delta = 5", \
-     "residual_delta4.dat" using 1:2 with lines title "delta = 10"
+     "residual_delta3.dat" using 1:2 with lines title "delta = 10", \
+     "residual_delta4.dat" using 1:2 with lines title "delta = 100"

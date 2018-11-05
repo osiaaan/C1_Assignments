@@ -11,19 +11,24 @@
 #include<vector>
 #include"sparse.hh"
 
-// auto start = std@@chrono::high_resolution_clock::now();
-//auto finish = std::chrono::high_resolution_clock::now();
-// elapsed.count();
+template <class T>
+void printVector_(std::vector<T> v)
+{
+  for( T n : v )
+  {
+    std::cout << n << " ";
+  }
+  std::cout << '\n';
+}
 
  int main()
 {
 
 std::vector<double> delta = {1};
 
-
 for(int i = 0 ; i < delta.size() ; ++i)
 {
-  const unsigned int N = 10;//dimension
+  const unsigned int N = 100;//dimension
   const  double delta_ = delta[i];//constant
   double a = 4*(1-delta_);
 
@@ -86,8 +91,10 @@ for(int i = 0 ; i < delta.size() ; ++i)
 
   /*Here we implement Gauss Seidel, and it returns a vector of the
   residual error for each iteration */
-  std::vector<double> residual = A.GaussSeidel(x,b);
-  std::cout << " " << std::endl;
+  std::vector<std::vector<double>> result = A.GaussSeidel(x,b);
+  std::vector<double> x_sol = result[0];
+  std::vector<double> residual = result[1];
+  std::cout << "The error between the solution and the approximation is: " << infinityNorm(minus(w,x_sol)) << std::endl;
 }
 
 

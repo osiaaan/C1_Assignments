@@ -105,18 +105,18 @@ std::vector<double> Sparse::operator*(std::vector<double> x)
     return x;
   }
 
-  int n = (*this).getLength();
-  int m = (*this).getWidth();
+  int n = N_length_;
+  int m = M_width_;
   std::vector<double> y (n);
   double sum;
 
   for(int i = 0 ; i < n ; ++i)
   {
     sum = 0.0;
-    for(int j = 0 ; j < m ; ++j)
+    for(int j = 0 ; j < sparse_matrix_[i].size()  ; ++j)
     {
-      double a = (*this).getEntry(i,j);
-      sum += x[j]*a;
+      double a = sparse_matrix_[i][j];
+      sum += x[indexing_vector_[i][j]]*a;
     }
     y[i] = sum;
   }
@@ -339,6 +339,25 @@ bool Sparse::checkDimension()
   return indicator;
 }
 
+
+std::vector<double> Sparse::diag()
+{
+  std::vector<double> d(N_length_);
+  for(int i = 0 ; i < N_length_ ; ++i)
+  {
+    d[i] = 0;
+    for(int j = 0 ; j < i + 1; j++)
+    {
+      if(indexing_vector_[i][j] == i)
+      {
+        d[i] = sparse_matrix_[i][j];
+        break;
+      }
+    }
+  }
+  return d;
+}
+
 //This will help us calculate the error later on
 double infinityNorm(std::vector<double> x) //take a wild guess
 {
@@ -429,24 +448,25 @@ void data(std::vector<std::vector<double>> R, std::string s)
 It will return a vector consisting of the residual error
 for each iteration in order.
 It's size will be the number of iterations*/
-std::vector<double> Sparse::GaussSeidel(std::vector<double> x_k, std::vector<double> b)
+std::vector<std::vector<double>> Sparse::GaussSeidel(std::vector<double> x_k, std::vector<double> b)
 {
-
-  //We first check if ther is a zero in the diagonal, and see if dimensions are correct
-  if((*this).checkDiagonal() == false)
-  {
-    std::cout << "The original guess has been returned." << std::endl;
-    return x_k;
-  }
-
-  //Now we implement our algorithm
-
-  int MaxIter = 100000; //This is our maximum number of iterations
+  std::vector<std::vector<double>> result;
+  int MaxIter = 500000; //This is our maximum number of iterations
   int it = 0; //This counts the number of iterations
 
    std::vector<double> r = minus(b,(*this)*x_k); //The residaul
    int n = N_length_;
    std::vector<double> residual;
+   std::vector<double> d = (*this).diag();
+
+   //We first check if ther is a zero in the diagonal, and see if dimensions are correct
+   if((*this).checkDiagonal() == false)
+   {
+     std::cout << "The returned vector contains the residual error between b and the initial guess only." << std::endl;
+     return result = {x_k, residual};
+   }
+
+   //Now we implement our algorithm
 
    /*While the error is not under tolerance and the Maximum
    number of iterations has not been met... */
@@ -466,7 +486,7 @@ std::vector<double> Sparse::GaussSeidel(std::vector<double> x_k, std::vector<dou
          }
        }
        //here we update our approximation
-       x_k[i] = (b[i] - sum)/((*this).getEntry(i,i));
+       x_k[i] = (b[i] - sum)/d[i];
      }
      //updating the residual
      r = minus(b, (*this)*x_k);
@@ -490,5 +510,6 @@ std::vector<double> Sparse::GaussSeidel(std::vector<double> x_k, std::vector<dou
    std::cout << "The residual error is: " << infinityNorm(r) << std::endl;
  }
 
- return residual;
+ result = {x_k, residual};
+ return result;
 }

@@ -388,7 +388,7 @@ void data(std::vector<std::vector<double>> R, std::string s)
     it in the data file.*/
     std::string myStr = std::to_string(j);
     //This will help us distinguish data files from each other.
-    std::string res = "residual_" + s + myStr + ".dat";
+    std::string res = "data_" + s + myStr + ".dat";
     std::ofstream myFile;
     //Here we open a file with the desired name
     myFile.open(res.c_str());

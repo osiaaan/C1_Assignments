@@ -12,7 +12,9 @@
  #include<iomanip>
  #include<fstream>
  #include<chrono>
+ #include<tgmath.h>
  #include"sparse.hh"
+
  /*
  class: CLASS_SPARSE
 
@@ -34,10 +36,12 @@
    //GETTERS
    Sparse getMatrix();
    std::vector<double> getVector();
+   std::vector<double> getSolution();
 
    //OPERATOR OVERLOADING
 
    //FUNCTIONS
+   std::vector<double> solve(std::vector<double> u, std::vector<double> f);
 
 
 private:
@@ -47,12 +51,19 @@ private:
    We will describe the finite difference method in compact matrix form AU = f.
    */
 
-   double a_, b_ ,c_; //These are the coefficients in the equation
+   double a_, b_ ,c_;//These are the coefficients in the equation
+   /*
+    The followng is a vector containing the values of the analytical solution to
+    the linear advection diffusion equation at the interior grid points.
+   */
+   std::vector<double> analyticSolution_;
    int N_;//This will be the mesh size
-   std::vector<double> f_; // The is corresponds the the vector f described in the comment
+   std::vector<double> f_;//The is corresponds the the vector f described in the comment
    Sparse A_;//This corresponds to the matrix A described in the comment
 
  };
+
+  double analyticSolution(double x, double p);
 
 
  #endif

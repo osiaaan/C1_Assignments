@@ -1,0 +1,12 @@
+set terminal pdf
+set output 'function.pdf'
+
+set xlabel  "Mesh Points of Interval [0,1]"
+
+set ylabel "Solution"
+
+set title "The Advection Diffusion Reaction equation"
+set key reverse Left outside
+
+plot "data_solution0.dat" using 1:2 with lines title "Analytic Solution", \
+     "data_solution1.dat" using 1:2 with lines title "Approximate Solution", \

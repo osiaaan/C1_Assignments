@@ -8,6 +8,7 @@
  {
    double p = b_/a_;
    double q = c_/a_;
+   double h = (double) 1/(N_+1);
 
    double u(1);
    double v(-2);
@@ -16,6 +17,13 @@
    Sparse A(3,3);
    std::vector<double> f(3);
    f[2] = -1;
+
+   std::vector<double> u_sol(N_);
+   for( int i = 0; i < N_; ++i )
+   {
+     u_sol[i] = analyticSolution(i*h,p);
+   }
+   u_sol.emplace_back(1);
 
    for(int i = 0; i < N_; ++i)
    {
@@ -29,6 +37,7 @@
      f[i] = 0;
    }
 
+   analyticSolution_ = u_sol;
    f_ = f;
    A_ = A;
  }
@@ -40,6 +49,7 @@
  //This is the custom constructor
  Finite::Finite(double a, double b, double c, int N) : N_(N), a_(a), b_(b), c_(c)
  {
+
    if ( a == 0 )
    {
      std::cout << "The coefficent 'a' should be nonzero." << std::endl;
@@ -59,8 +69,15 @@
      double w(1 + (0.5*h*p));
 
      Sparse A(N_,N_);
+
      std::vector<double> f(N_);
      f[N_ -1] = (0.5*h*p) - 1;
+
+     std::vector<double> u_sol(N_);
+     for( int i = 0; i < N_; ++i )
+     {
+       u_sol[i] = analyticSolution(i*h,p);
+     }
 
      for(int i = 0; i < N_; ++i)
      {
@@ -73,10 +90,11 @@
        A.addEntry(w, i+1, i);
        f[i] = 0;
      }
-
+     analyticSolution_ = u_sol;
      f_ = f;
      A_ = A;
    }
+
  }
 
  //GETTERS
@@ -90,4 +108,26 @@
  {
    std::vector<double> f = f_;
    return f;
+ }
+
+ std::vector<double> Finite::getSolution()
+ {
+   std::vector<double> s = analyticSolution_;
+   return s;
+ }
+
+ //FUNCTIONS
+ double analyticSolution(double x, double p)
+ {
+   double e = exp(p);
+   double A = 1/(e-1);
+
+   return A*(exp(p*x)-1);
+ }
+
+ std::vector<double> Finite::solve(std::vector<double> u, std::vector<double> f)
+ {
+   std::vector<std::vector<double>> V = A_.GaussSeidel(u,f);
+   V[0].emplace_back(1);
+   return V[0];
  }

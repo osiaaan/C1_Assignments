@@ -5,7 +5,9 @@
 #include<iomanip>
 #include<fstream>
 #include<chrono>
+#include"sparse.hh"
 #include"finite.hh"
+
 
 template <class T>
 void printVector_(std::vector<T> v)
@@ -19,17 +21,23 @@ void printVector_(std::vector<T> v)
 
 int main()
 {
-Finite x(0,2,2,1000);
-Sparse A = x.getMatrix();
-std::vector<double> f = x.getVector();
-std::vector<double> u(f.size());
+int const N = 12000;
+Finite x(1,1,0,N);
+std::vector<double> u;
+std::vector<double> u_sol = x.getSolution();
+std::vector<double> uGuess(N);
 
 for( double n : u )
 {
   n = 0.0;
 }
 
-A.GaussSeidel(u,f);
-std::cout << " " << std::endl;
+u = x.solve(uGuess, x.getVector());
+u_sol.emplace_back(1);
+std::vector<std::vector<double>> dat = {u_sol, u};
+std::cout << u.size() << " " << u_sol.size() << std::endl;
+
+std::cout << "There error between the analytic and approximate solution is: " << infinityNorm(minus(u_sol,u)) << std::endl;
+data(dat,"solution");
 
 }

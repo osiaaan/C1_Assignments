@@ -1,14 +1,14 @@
 # input files
 TEX=report.tex
-PLOTSCRIPTS=plotscript.gpl plotscript2.gpl
+PLOTSCRIPTS=plotscript.gpl
 # C++ sources are automatically handled
 
 # generated files
 REPORT=report.pdf
-PLOTS=function.pdf function2.pdf
-RESULTS=residual.dat
+PLOTS=function.pdf
+RESULTS=data_solution0.dat data_solution1.dat
 PROGRAM=myprogram
-OBJS=test.o sparse.o
+OBJS=test.o sparse.o finite.o
 
 # additional variables
 CPPFLAGS=-std=c++0x
@@ -21,7 +21,6 @@ $(REPORT): $(PLOTS) $(TEX)
 
 $(PLOTS): $(RESULTS) $(PLOTSCRIPTS)
 	gnuplot plotscript.gpl
-	gnuplot plotscript2.gpl
 
 $(RESULTS): $(PROGRAM)
 	./$(PROGRAM)

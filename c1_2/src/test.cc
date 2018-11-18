@@ -21,23 +21,26 @@ void printVector_(std::vector<T> v)
 
 int main()
 {
-int const N = 12000;
-Finite x(1,1,0,N);
-std::vector<double> u;
-std::vector<double> u_sol = x.getSolution();
-std::vector<double> uGuess(N);
+  int const N = 10;
+  Finite x(1,1,0,N);
 
-for( double n : u )
-{
-  n = 0.0;
-}
+  std::vector<double> u;
+  std::vector<double> u_sol = x.getSolution();
+  std::vector<double> uGuess(N);
 
-u = x.solve(uGuess, x.getVector());
-u_sol.emplace_back(1);
-std::vector<std::vector<double>> dat = {u_sol, u};
-std::cout << u.size() << " " << u_sol.size() << std::endl;
+  (x.getMatrix()).printMatrix();
 
-std::cout << "There error between the analytic and approximate solution is: " << infinityNorm(minus(u_sol,u)) << std::endl;
-data(dat,"solution");
+  for( double n : uGuess )
+  {
+    n = 0.0;
+  }
+
+  u = x.solve(uGuess, x.getVector());
+
+  std::vector<std::vector<double>> dat = {u_sol, u};
+  std::cout << u.size() << " " << u_sol.size() << std::endl;
+
+  std::cout << "There error between the analytic and approximate solution is: " << infinityNorm(minus(u_sol,u)) << std::endl;
+  data(dat,"solution");
 
 }

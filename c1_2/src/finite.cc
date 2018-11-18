@@ -60,7 +60,7 @@
    }
    else
    {
-     double h = (double) 1/(N+1);
+     double h = (double) 1/(N_+1);
      double p = b_/a_;
      double q = c_/a_;
 
@@ -73,8 +73,8 @@
      std::vector<double> f(N_);
      f[N_ -1] = (0.5*h*p) - 1;
 
-     std::vector<double> u_sol(N_);
-     for( int i = 0; i < N_; ++i )
+     std::vector<double> u_sol(N_+2);
+     for( int i = 0; i < N_+2; ++i )
      {
        u_sol[i] = analyticSolution(i*h,p);
      }
@@ -128,6 +128,8 @@
  std::vector<double> Finite::solve(std::vector<double> u, std::vector<double> f)
  {
    std::vector<std::vector<double>> V = A_.GaussSeidel(u,f);
+   V[0].insert(V[0].begin(), 0);
    V[0].emplace_back(1);
+
    return V[0];
  }

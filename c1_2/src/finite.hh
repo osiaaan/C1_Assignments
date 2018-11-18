@@ -57,7 +57,7 @@ private:
     the linear advection diffusion equation at the interior grid points.
    */
    std::vector<double> analyticSolution_;
-   int N_;//This will be the mesh size
+   int N_;//This will be the mesh size, specifically interior points
    std::vector<double> f_;//The is corresponds the the vector f described in the comment
    Sparse A_;//This corresponds to the matrix A described in the comment
 

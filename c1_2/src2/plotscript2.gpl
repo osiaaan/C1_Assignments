@@ -1,0 +1,15 @@
+set terminal pdf
+set output 'function_100.pdf'
+
+set xlabel  "Mesh Points of Interval [0,1]"
+
+set ylabel "Solution"
+
+set title "The Advection Diffusion Reaction equation"
+set key reverse Left outside
+
+plot "data_solution_0.000000_100_1.dat" using 1:2 with lines title "Pe = 0", \
+     "data_solution_2.000000_100_1.dat" using 1:2 with lines title "Pe = 1", \
+     "data_solution_20.000000_100_1.dat" using 1:2 with lines title "Pe = 10", \
+     "data_solution_100.000000_100_1.dat" using 1:2 with lines title "Pe = 50", \
+     "data_solution_200.000000_100_1.dat" using 1:2 with lines title "Pe = 100", \

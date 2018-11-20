@@ -18,10 +18,9 @@
  #include"vector.hh"
 
  /*
- class: CLASS_SPARSE
- a class to create matrices which help described a finite difference method
- for a case of the dvection Diffusion Reaction equation in compact Matrix
- form. This problem will then be solved using GaussSeidel
+ class: CLASS_FINITE
+a class to create a matrix representing the advetion diffusion reaction equation problem
+in matrix format along with other fucntionalities
  */
 
  class Finite
@@ -39,8 +38,6 @@
    std::vector<double> getVector();
    std::vector<double> getSolution();
 
-   //OPERATOR OVERLOADING
-
    //FUNCTIONS
    std::vector<double> solve(std::vector<double> u);
 
@@ -55,7 +52,7 @@ private:
    double a_, b_ ,c_;//These are the coefficients in the equation
    /*
     The followng is a vector containing the values of the analytical solution to
-    the linear advection diffusion equation at the interior grid points.
+    the linear advection diffusion equation at the grid points.
    */
    std::vector<double> analyticSolution_;
    int N_;//This will be the mesh size, specifically interior points
@@ -66,6 +63,6 @@ private:
 
   double analyticSolution(double x, double p);
   double error(std::vector<double> u, std::vector<double> v);
-  void test(int N, double beta);
+  double test(int N, double beta);
 
  #endif

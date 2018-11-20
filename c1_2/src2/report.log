@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.3)  18 NOV 2018 22:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.3)  20 NOV 2018 19:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -212,35 +212,69 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 82.
 )
 \Hy@SectionHShift=\skip46
-) (./report.aux)
+) (/usr/share/texlive/texmf-dist/tex/latex/mathtools/mathtools.sty
+Package: mathtools 2015/11/12 v1.18 mathematical typesetting tools
+(/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2014/10/28 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count110
+\calc@Bcount=\count111
+\calc@Adimen=\dimen118
+\calc@Bdimen=\dimen119
+\calc@Askip=\skip47
+\calc@Bskip=\skip48
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count112
+\calc@Cskip=\skip49
+) (/usr/share/texlive/texmf-dist/tex/latex/mathtools/mhsetup.sty
+Package: mhsetup 2010/01/21 v1.2a programming setup (MH)
+)
+LaTeX Info: Thecontrolsequence`\('isalreadyrobust on input line 129.
+LaTeX Info: Thecontrolsequence`\)'isalreadyrobust on input line 129.
+LaTeX Info: Thecontrolsequence`\['isalreadyrobust on input line 129.
+LaTeX Info: Thecontrolsequence`\]'isalreadyrobust on input line 129.
+\g_MT_multlinerow_int=\count113
+\l_MT_multwidth_dim=\dimen120
+\origjot=\skip50
+\l_MT_shortvdotswithinadjustabove_dim=\dimen121
+\l_MT_shortvdotswithinadjustbelow_dim=\dimen122
+\l_MT_above_intertext_sep=\dimen123
+\l_MT_below_intertext_sep=\dimen124
+\l_MT_above_shortintertext_sep=\dimen125
+\l_MT_below_shortintertext_sep=\dimen126
+) (./report.aux
+
+LaTeX Warning: Label `fig:func2' multiply defined.
+
+)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 6.
-LaTeX Font Info:    ... okay on input line 6.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 6.
-LaTeX Font Info:    ... okay on input line 6.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 6.
-LaTeX Font Info:    ... okay on input line 6.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 6.
-LaTeX Font Info:    ... okay on input line 6.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 6.
-LaTeX Font Info:    ... okay on input line 6.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 6.
-LaTeX Font Info:    ... okay on input line 6.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 6.
-LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count110
-\scratchdimen=\dimen118
+\scratchcounter=\count114
+\scratchdimen=\dimen127
 \scratchbox=\box28
-\nofMPsegments=\count111
-\nofMParguments=\count112
+\nofMPsegments=\count115
+\nofMParguments=\count116
 \everyMPshowfont=\toks20
-\MPscratchCnt=\count113
-\MPscratchDim=\dimen119
-\MPnumerator=\count114
-\makeMPintoPDFobject=\count115
+\MPscratchCnt=\count117
+\MPscratchDim=\dimen128
+\MPnumerator=\count118
+\makeMPintoPDFobject=\count119
 \everyMPtoPDFconversion=\toks21
 ) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
@@ -256,123 +290,108 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 \AtBeginShipoutBox=\box29
-Package hyperref Info: Link coloring OFF on input line 6.
+Package hyperref Info: Link coloring OFF on input line 7.
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count116
+\c@section@level=\count120
 )
-LaTeX Info: Redefining \ref on input line 6.
-LaTeX Info: Redefining \pageref on input line 6.
-LaTeX Info: Redefining \nameref on input line 6.
+LaTeX Info: Redefining \ref on input line 7.
+LaTeX Info: Redefining \pageref on input line 7.
+LaTeX Info: Redefining \nameref on input line 7.
 (./report.out) (./report.out)
 \@outlinefile=\write3
 \openout3 = `report.out'.
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 13.
+LaTeX Font Info:    Try loading font information for U+msa on input line 14.
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 13.
+LaTeX Font Info:    Try loading font information for U+msb on input line 14.
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-Underfull \hbox (badness 10000) in paragraph at lines 23--25
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 29--31
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 32--33
-
- []
-
-[1
+) [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 72.
+(hyperref)                removing `math shift' on input line 64.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\delta' on input line 72.
+(hyperref)                removing `math shift' on input line 64.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 72.
+(hyperref)                removing `math shift' on input line 64.
 
 
-LaTeX Warning: Reference `fig:func2' on page 3 undefined on input line 115.
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 64.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 116--118
-
+Overfull \hbox (1.78416pt too wide) in paragraph at lines 106--106
+[] 
  []
 
-[3]
+[3] [4] <function_1000.pdf, id=58, 361.35pt x 216.81pt>
+File: function_1000.pdf Graphic file (type pdf)
+<use function_1000.pdf>
+Package pdftex.def Info: function_1000.pdf used on input line 115.
+(pdftex.def)             Requested size: 345.0pt x 207.00049pt.
+<function_100.pdf, id=59, 361.35pt x 216.81pt>
+File: function_100.pdf Graphic file (type pdf)
+<use function_100.pdf>
+Package pdftex.def Info: function_100.pdf used on input line 123.
+(pdftex.def)             Requested size: 345.0pt x 207.00049pt.
+<error.pdf, id=60, 361.35pt x 216.81pt>
+File: error.pdf Graphic file (type pdf)
+<use error.pdf>
+Package pdftex.def Info: error.pdf used on input line 131.
+(pdftex.def)             Requested size: 345.0pt x 207.00049pt.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 138.
+[5 <./function_1000.pdf> <./function_100.pdf
 
-LaTeX Warning: Reference `fig:func2' on page 4 undefined on input line 119.
-
-[4]
-
-! LaTeX Error: File `function' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.125 ...ludegraphics[width=1\textwidth]{function}
-                                                  
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2,.eps
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 132.
-[5]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 132.
+pdfTeX warning: pdflatex (file ./function_100.pdf): PDF inclusion: multiple pdf
+s with page group included in a single page
+>] [6 <./error.pdf>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 138.
 (./report.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 132.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 132.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 138.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 138.
 Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: 0343C2E13CECD86DB0064213A8B88ECC;340.
+(rerunfilecheck)             Checksum: 36A6A20C9AB34F1F007CBA660702CBE4;405.
 
-LaTeX Warning: There were undefined references.
+LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 132.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 138.
  ) 
 Here is how much of TeX's memory you used:
- 5972 strings out of 493029
- 85408 string characters out of 6136234
- 175316 words of memory out of 5000000
- 9430 multiletter control sequences out of 15000+600000
- 12248 words of font info for 47 fonts, out of 8000000 for 9000
+ 6518 strings out of 493029
+ 95107 string characters out of 6136234
+ 187283 words of memory out of 5000000
+ 9972 multiletter control sequences out of 15000+600000
+ 11940 words of font info for 46 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 29i,9n,31p,830b,377s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/font
-s/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-sy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pf
-b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb
->
-Output written on report.pdf (5 pages, 138149 bytes).
+ 29i,10n,31p,857b,336s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+ti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msb
+m10.pfb>
+Output written on report.pdf (6 pages, 177406 bytes).
 PDF statistics:
- 108 PDF objects out of 1000 (max. 8388607)
- 87 compressed objects within 1 object stream
- 13 named destinations out of 1000 (max. 500000)
- 41 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 160 PDF objects out of 1000 (max. 8388607)
+ 123 compressed objects within 2 object streams
+ 17 named destinations out of 1000 (max. 500000)
+ 64 words of extra memory for PDF output out of 10000 (max. 10000000)
 

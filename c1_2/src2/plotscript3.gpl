@@ -1,0 +1,23 @@
+set terminal pdf
+
+set output 'error.pdf'
+set format y "%.e"
+set yrange [1e-8:1]
+set xrange [0.001:0.01]
+set logscale xy
+
+set xlabel  "h"
+
+
+set ylabel "Error"
+
+
+set title "Error over Mesh size"
+set grid
+set key reverse Left outside
+
+plot "error0.dat" using 1:2 with lines title "Pe = 0", \
+     "error2.dat" using 1:2 with lines title "Pe = 1", \
+     "error20.dat" using 1:2 with lines title "Pe = 10", \
+     "error200.dat" using 1:2 with lines title "Pe = 100", \
+     "error200.dat" using 1:1**2 with lines title "h^2"

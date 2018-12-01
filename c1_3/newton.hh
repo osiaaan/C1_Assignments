@@ -5,15 +5,27 @@
 #include <vector>
 #include "models.hh"
 
-template <class Model>
-double newton (double t, const double &y, double h, const Model &model, double c_0, int maxIter)
+double sum(std::vector<double> v)
 {
+  double s = 0.;
+  for(int i = 0 ; i < v.size() ; ++i)
+  {
+    s +=v [i];
+  }
+  return s;
+}
+
+template <class Model>
+double newton (double t, const double &y, double h, const Model &model, std::vector<double> a, std::vector<double> summand, int i, int stages)
+{
+  double c_0 = 0.;
+
   double const tol = 1e-6;
-	for( int i = 0 ; i < maxIter ; i++ )
+	for( int i = 0 ; i < 10000 ; i++ )
 	{
 		double x = c_0;
-		double fx = model.f(t,x) - ((x - y)/h);
-		double fx1 = model.df(t,x) - (1/h);
+		double fx = model.f(t,x) - ( x - h*sum(summand) - y ) / ( h*a[i*stages + i] );
+		double fx1 = model.df(t,x) - 1/(h*a[i*stages + i]);
 		c_0 = x - (fx/fx1);
 
 
@@ -25,19 +37,3 @@ double newton (double t, const double &y, double h, const Model &model, double c
   //std::cout << c_0 << std::endl;
 	return c_0;
 }
-/*
-for (int i = 0; i < maxIter; i++) {
-
-            double x = c_0;
-
-            double f = model.f(t + c_[0] * h, x) - (x - y) / h;
-
-            double df = model.df(t + c_[0] * h, x) - (1 / h);
-
-            c_0 = x - (f / df);
-
-            if (fabs(c_0 - x) < tol) {
-                break;
-            }
-        }
-*/

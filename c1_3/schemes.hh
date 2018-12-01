@@ -39,6 +39,8 @@ public:
   {
     double ret = y;
     std::vector<double> k(stages_);
+    std::vector<double> s(stages_*stages_);
+
 
     // putting in forward Euler here temporarily
     /*
@@ -46,14 +48,30 @@ public:
     ret += h*b_[0]*k[0];
     return ret;
     */
+    double newt = newton(t + c_[0]*h, y, h, model, a_, k, 0, stages_);
+    double K_1 = (newt - y)/h;
+    k[0] = K_1;
+
+    for(int i = 1 ; i < stages_ ; ++i)
+    {
+      std::vector<double> summand (i);
+      for(int j = 0 ; j < summand.size() ; ++j)
+      {
+          //This is sum_{j=1}^{i-1}a_{ij}K_j
+          summand[j] = a_[i*stages_ + j]*k[j];
+      }
+
+      double _newt = newton(t + c_[i]*h, y, h, model, a_, summand, i, stages_);
+      double K_i = ( _newt - h*sum(summand) - y ) / ( h*a_[i*stages_ + i] );
+      k[i] = K_i;
+    }
 
 
-    double newt = newton(t + c_[0]*h, y, h, model, 1.0, 100);
-    double Kay = (newt - y)/h;
-
-    k[0] = Kay;
     //k[0] = model.f(t + c_[0]*h, y + h*Kay);
-    return ret += h*b_[0]*k[0];
+    for(int i = 0 ; i < stages_ ; ++i)
+    {
+    return ret += h*b_[i]*k[i];
+    }
     //std::cout << k[0] << std::endl;
 
 

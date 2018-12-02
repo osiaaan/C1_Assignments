@@ -39,17 +39,20 @@ public:
   {
     double ret = y;
     std::vector<double> k(stages_);
-    // putting in forward Euler here temporarily
+
+    //ignore what is commented out here
     /*
     k[0] = model.f(t+c_[0]*h, y);
     ret += h*b_[0]*k[0];
     return ret;
+
+    double newt = newton(t + c_[0]*h, y, h, model, a_, k, 0, stages_);
+    double K_1 = (newt - y)/h;
+    k[0] = K_1;
     */
-    //double newt = newton(t + c_[0]*h, y, h, model, a_, k, 0, stages_);
-    //double K_1 = (newt - y)/h;
-    //k[0] = K_1;
 
     //Check if the shceme is implicit or not (i.e. FE or not)
+    //Note: there is a new protected boolean called implicit
     if(implicit_ == false)
     {
       k[0] = model.f(t+c_[0]*h, y);
@@ -60,22 +63,26 @@ public:
     {
       for(int i = 0 ; i < stages_ ; ++i)
       {
+        //This will be the value of sum_{j=1}^{i-1}a_{ij}K_j
         double sum;
+        //This vector will hold the entries of the sum sum_{j=1}^{i-1}a_{ij}K_j
         std::vector<double> summand (i);
         for(int j = 0 ; j < summand.size() ; ++j)
         {
-            //This is sum_{j=1}^{i-1}a_{ij}K_j
             summand[j] = a(i,j)*k[j];
         }
+        //Using the sum_up function which is defined in newton.hh
         sum = sum_up(summand);
 
+        //We can now use these parameters to solve for K_i via newton
         double newt = newton(t + c_[i]*h, y, h, model, a(i,i), sum);
         double K_i = ( newt - h*sum - y ) / ( h*a(i,i) );
+        //Finally set plug this K_i value into our k vector for safekeeping...
         k[i] = K_i;
       }
-      //k[0] = model.f(t + c_[0]*h, y + h*Kay);
       for(int i = 0 ; i < stages_ ; ++i)
       {
+        // We now return the value of u_{n+1} according to the RK scheme...
         return ret += h*b_[i]*k[i];
       }
     }
@@ -107,7 +114,6 @@ public:
   implicit_ = false;
   }
 
-
 };
 
 class BE: public DIRK
@@ -119,6 +125,55 @@ public:
 	a(0,0) = 1.;
 	b_[0] = 1.;
 	c_[0] = 1.;
+  implicit_= true;
+  }
+};
+
+class IM: public DIRK
+{
+public:
+
+  IM() : DIRK(1)
+  {
+	a(0,0) = 0.5;
+	b_[0] = 1.;
+	c_[0] = 0.5;
+  implicit_= true;
+  }
+};
+
+class Heun3: public DIRK
+{
+public:
+
+  Heun3() : DIRK(3)
+  {
+	a(1,0) = 1./3.;
+  a(2,1) = 2./3.;
+	b_[0] = 0.25;
+  b_[1] = 0.;
+  b_[2] = 0.75;
+  c_[0] = 0,;
+  c_[1] = 1./3.;
+  c_[2] = 2./3.;
+  implicit_= true;
+  }
+};
+
+class DIRK2: public DIRK
+{
+public:
+
+  DIRK2() : DIRK(2)
+  {
+  double delta = 0.5 + (sqrt(3)/6);
+	a(0,0) = delta;
+  a(1,0) = 1 - 2*delta;
+  a(1,1) = delta;
+	b_[0] = (0.5 - delta)/(1 - 2*delta);
+  b_[0] = (0.5 - delta)/(1 - 2*delta);
+  c_[0] = delta;
+  c_[1] = 1 - delta;
   implicit_= true;
   }
 };

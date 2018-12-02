@@ -45,8 +45,8 @@ int main ( int argc, char **argv )
 
 
   // choose correct model and scheme
-  Test1 model;
-  BE scheme;
+  Test model;
+  FE scheme;
 
   // solve and display error
   for (int i=0;i<level;++i,tau/=2.)

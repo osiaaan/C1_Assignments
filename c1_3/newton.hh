@@ -5,7 +5,7 @@
 #include <vector>
 #include "models.hh"
 
-double sum(std::vector<double> v)
+double sum_up(std::vector<double> v)
 {
   double s = 0.;
   for(int i = 0 ; i < v.size() ; ++i)
@@ -16,7 +16,7 @@ double sum(std::vector<double> v)
 }
 
 template <class Model>
-double newton (double t, const double &y, double h, const Model &model, std::vector<double> a, std::vector<double> summand, int i, int stages)
+double newton (double t, const double &y, double h, const Model &model, double a_ii, double sum)
 {
   double c_0 = 0.;
 
@@ -24,8 +24,8 @@ double newton (double t, const double &y, double h, const Model &model, std::vec
 	for( int i = 0 ; i < 10000 ; i++ )
 	{
 		double x = c_0;
-		double fx = model.f(t,x) - ( x - h*sum(summand) - y ) / ( h*a[i*stages + i] );
-		double fx1 = model.df(t,x) - 1/(h*a[i*stages + i]);
+		double fx = model.f(t,x) - ( x - h*sum - y ) / ( h*a_ii );
+		double fx1 = model.df(t,x) - 1/(h*a_ii);
 		c_0 = x - (fx/fx1);
 
 

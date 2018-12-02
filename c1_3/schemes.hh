@@ -39,41 +39,46 @@ public:
   {
     double ret = y;
     std::vector<double> k(stages_);
-    std::vector<double> s(stages_*stages_);
-
-
     // putting in forward Euler here temporarily
     /*
     k[0] = model.f(t+c_[0]*h, y);
     ret += h*b_[0]*k[0];
     return ret;
     */
-    double newt = newton(t + c_[0]*h, y, h, model, a_, k, 0, stages_);
-    double K_1 = (newt - y)/h;
-    k[0] = K_1;
+    //double newt = newton(t + c_[0]*h, y, h, model, a_, k, 0, stages_);
+    //double K_1 = (newt - y)/h;
+    //k[0] = K_1;
 
-    for(int i = 1 ; i < stages_ ; ++i)
+    //Check if the shceme is implicit or not (i.e. FE or not)
+    if(implicit_ == false)
     {
-      std::vector<double> summand (i);
-      for(int j = 0 ; j < summand.size() ; ++j)
+      k[0] = model.f(t+c_[0]*h, y);
+      ret += h*b_[0]*k[0];
+      return ret;
+    }
+    else //The shceme is implicit...
+    {
+      for(int i = 0 ; i < stages_ ; ++i)
       {
-          //This is sum_{j=1}^{i-1}a_{ij}K_j
-          summand[j] = a_[i*stages_ + j]*k[j];
+        double sum;
+        std::vector<double> summand (i);
+        for(int j = 0 ; j < summand.size() ; ++j)
+        {
+            //This is sum_{j=1}^{i-1}a_{ij}K_j
+            summand[j] = a(i,j)*k[j];
+        }
+        sum = sum_up(summand);
+
+        double newt = newton(t + c_[i]*h, y, h, model, a(i,i), sum);
+        double K_i = ( newt - h*sum - y ) / ( h*a(i,i) );
+        k[i] = K_i;
       }
-
-      double _newt = newton(t + c_[i]*h, y, h, model, a_, summand, i, stages_);
-      double K_i = ( _newt - h*sum(summand) - y ) / ( h*a_[i*stages_ + i] );
-      k[i] = K_i;
+      //k[0] = model.f(t + c_[0]*h, y + h*Kay);
+      for(int i = 0 ; i < stages_ ; ++i)
+      {
+        return ret += h*b_[i]*k[i];
+      }
     }
-
-
-    //k[0] = model.f(t + c_[0]*h, y + h*Kay);
-    for(int i = 0 ; i < stages_ ; ++i)
-    {
-    return ret += h*b_[i]*k[i];
-    }
-    //std::cout << k[0] << std::endl;
-
 
   }
 
@@ -83,6 +88,7 @@ protected:
   double a(int i, int j) const { return a_[i*stages_+j]; }
   double& a(int i, int j) { return a_[i*stages_+j]; }
 
+  bool implicit_;
   int stages_;
 
   std::vector<double> a_,b_,c_;
@@ -98,7 +104,10 @@ public:
 	a(0,0) = 0.;
 	b_[0] = 1.;
 	c_[0] = 0.;
+  implicit_ = false;
   }
+
+
 };
 
 class BE: public DIRK
@@ -110,6 +119,7 @@ public:
 	a(0,0) = 1.;
 	b_[0] = 1.;
 	c_[0] = 1.;
+  implicit_= true;
   }
 };
 

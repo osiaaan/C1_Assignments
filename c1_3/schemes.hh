@@ -55,9 +55,44 @@ public:
     //Note: there is a new protected boolean called implicit
     if(implicit_ == false)
     {
-      k[0] = model.f(t+c_[0]*h, y);
-      ret += h*b_[0]*k[0];
-      return ret;
+      /*
+      for(int i = 0 ; i < stages_ ; ++i)
+      {
+        //This will be the value of sum_{j=1}^{i-1}a_{ij}K_j
+        double sum;
+        //This vector will hold the entries of the sum sum_{j=1}^{i-1}a_{ij}K_j
+
+        std::vector<double> summand (i);
+        for(int j = 0 ; j < summand.size() ; ++j)
+        {
+            summand[j] = a(i,j)*k[j];
+        }
+        sum = sum_up(summand);
+
+        k[i] = model.f(t + c_[i]*h, y + h*sum);
+
+        for(int i = 0 ; i < stages_ ; ++i)
+        {
+          // We now return the value of u_{n+1} according to the RK scheme...
+          return ret += h*b_[i]*k[i];
+        }
+      }
+      */
+      for (unsigned int i = 0; i < k.size(); i++)
+      {
+        double sum = 0.;
+        for(unsigned int j = 0; j < i; j++)
+        {
+          sum += a(i,j)*k[j];
+        }
+        k[i] = model.f(t + h*c_[i], y + h*sum);
+      }
+
+      for (unsigned int i = 0; i < k.size(); i++)
+      {
+        ret += h*b_[i]*k[i];
+      }
+        return ret;
     }
     else //The shceme is implicit...
     {
@@ -108,7 +143,7 @@ public:
 
   FE() : DIRK(1)
   {
-	a(0,0) = 0.;
+	//a(0,0) = 0.;
 	b_[0] = 1.;
 	c_[0] = 0.;
   implicit_ = false;
@@ -148,15 +183,15 @@ public:
 
   Heun3() : DIRK(3)
   {
-	a(1,0) = 1./3.;
-  a(2,1) = 2./3.;
+	a(1,0) = double(1)/double(3);
+  a(2,1) = double(2)/double(3);
 	b_[0] = 0.25;
   b_[1] = 0.;
   b_[2] = 0.75;
-  c_[0] = 0,;
-  c_[1] = 1./3.;
-  c_[2] = 2./3.;
-  implicit_= true;
+  c_[0] = 0.;
+  c_[1] = double(1)/double(3);
+  c_[2] = double(2)/double(3);
+  implicit_= false;
   }
 };
 

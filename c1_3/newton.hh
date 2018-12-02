@@ -5,6 +5,7 @@
 #include <vector>
 #include "models.hh"
 
+
 double sum_up(std::vector<double> v)
 {
   double s = 0.;

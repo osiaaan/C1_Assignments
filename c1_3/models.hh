@@ -56,4 +56,29 @@ struct Test1
   }
 };
 
+struct Test2
+{
+  double const lambda = -0.1;
+  double f(double t,const double &y) const
+  {
+    return 1-cos(t)*(cos(t)-exp(lambda*t)) - exp(-2*lambda*t)*y*y + lambda*y;
+  }
+  double df(double t,const double &y) const
+  {
+    return -2*exp(-2*lambda*t)*y + lambda;
+  }
+  double T() const
+  {
+    return 10;
+  }
+  double y0() const
+  {
+    return 0.;
+  }
+  double exact(double t) const
+  {
+    return exp(lambda*t)*sin(t);
+  }
+};
+
 #endif // MODELS_HH

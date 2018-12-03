@@ -2,7 +2,9 @@
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
+#include<fstream>
 #include <vector>
+#include <iomanip>
 
 #include "schemes.hh"
 #include "models.hh"
@@ -31,18 +33,31 @@ double solve(const Model &model, const DIRK &scheme, double tau)
 
 void testing(int j, int k, int level, double tau)
 {
-
-  FE sch1;
-  BE sch2;
-  IM sch3;
-  Heun3 sch4;
-  DIRK2 sch5;
-
-  std::vector<DIRK> sch = {sch1,sch2,sch3,sch4,sch5};
-
-  if(j == 1)
+  if( k > 5 || k < 1)
   {
-    Test1 model;
+    std::cout << "Please pick a scheme between 1 and 5" << std::endl;
+  }
+  else
+  {
+
+    std::string testNum = std::to_string(j);
+    std::string schemeNum = std::to_string(k);
+    std::string myStr = "table_" + testNum + "_" + schemeNum;
+    std::ofstream myFile;
+    myFile.open(myStr.c_str());
+    const int numWidth = 20;
+    myFile << std::left << std::setw(numWidth) << "Tau" << std::left << std::setw(numWidth)  << "Error" << std::left << std::setw(numWidth)  << "EOC" << std::endl;
+
+    FE sch1;
+    BE sch2;
+    IM sch3;
+    Heun3 sch4;
+    DIRK2 sch5;
+
+    std::vector<DIRK> sch = {sch1,sch2,sch3,sch4,sch5};
+
+    Test model;
+    model.model_ = j;
 
     std::vector<double> ERROR(level);
     std::vector<double> EOC(level-1);
@@ -55,50 +70,18 @@ void testing(int j, int k, int level, double tau)
       if(i == 0)
       {
         ERROR[i] = maxError;
+        myFile << std::left << std::setw(numWidth) << tau << std::left << std::setw(numWidth) << maxError << std::left << std::setw(numWidth)  << " " << std::endl;
       }
       else
       {
         ERROR[i] = maxError;
         EOC[i-1] = log(ERROR[i]/ERROR[i-1])/log(tau/(2*tau));
+        myFile << std::left << std::setw(numWidth) << tau << std::left << std::setw(numWidth)  << maxError << std::left << std::setw(numWidth)  << EOC[i-1] << std::endl;
       }
     }
-    for (int i=0;i<level-1;++i)
-    {
-      std::cout << EOC[i] << std::endl;
-    }
+    myFile.close();
   }
-  else if(j == 2)
-  {
-    Test2 model;
-
-    std::vector<double> ERROR(level);
-    std::vector<double> EOC(level-1);
-    // solve and display error
-    for (int i=0;i<level;++i,tau/=2.)
-    {
-      double maxError = solve(model, sch[k-1], tau);
-      std::cout << tau << " " << maxError << std::endl;
-
-      if(i == 0)
-      {
-        ERROR[i] = maxError;
-      }
-      else
-      {
-        ERROR[i] = maxError;
-        EOC[i-1] = log(ERROR[i]/ERROR[i-1])/log(tau/(2*tau));
-      }
-    }
-    for (int i=0;i<level-1;++i)
-    {
-      std::cout << EOC[i] << std::endl;
-    }
-  }
-  else {std::cout << "Please choose Test 1 or 2" << std::endl;}
-
-
 }
-
 
 int main ( int argc, char **argv )
 {
@@ -118,47 +101,6 @@ int main ( int argc, char **argv )
   double tau = atof( argv[3] );
   const int level = atoi( argv[4] );
 
-
-  // choose correct model and scheme
-/*
-  FE sch0;
-  BE sch1;
-  IM sch2;
-  Heun3 sch3;
-  DIRK2 sch4;
-
-  std::vector<DIRK> sch = {sch0,sch1,sch2,sch3,sch4};
-
-  Test1 model1;
-  Test2 model2;
-
-  std::vector<MODELS> = {model1,model2};
-  //Heun3 scheme;
-
-  std::vector<double> ERROR(level);
-  std::vector<double> EOC(level-1);
-  // solve and display error
-  for (int i=0;i<level;++i,tau/=2.)
-  {
-    double maxError = solve(model, sch[schemeNumber], tau);
-    std::cout << tau << " " << maxError << std::endl;
-
-    if(i == 0)
-    {
-      ERROR[i] = maxError;
-    }
-    else
-    {
-      ERROR[i] = maxError;
-      EOC[i-1] = log(ERROR[i]/ERROR[i-1])/log(tau/(2*tau));
-    }
-  }
-
-  for (int i=0;i<level-1;++i)
-  {
-    std::cout << EOC[i] << std::endl;
-  }
-*/
   testing(modelNumber, schemeNumber, level, tau);
   return 0;
 }

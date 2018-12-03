@@ -110,7 +110,7 @@ public:
         sum = sum_up(summand);
 
         //We can now use these parameters to solve for K_i via newton
-        double newt = newton(t + c_[i]*h, y, h, model, a(i,i), sum);
+        double newt = newton(t + c_[i]*h, y, h, model, a(i,i), sum, model.f(t+h*c_[i], y + h*sum));
         double K_i = ( newt - h*sum - y ) / ( h*a(i,i) );
         //Finally set plug this K_i value into our k vector for safekeeping...
         k[i] = K_i;
@@ -205,8 +205,8 @@ public:
 	a(0,0) = delta;
   a(1,0) = 1 - 2*delta;
   a(1,1) = delta;
-	b_[0] = (0.5 - delta)/(1 - 2*delta);
-  b_[0] = (0.5 - delta)/(1 - 2*delta);
+	b_[0] = 0.5;//(0.5 - delta)/(1 - 2*delta);
+  b_[1] = 0.5;//(0.5 - delta)/(1 - 2*delta);
   c_[0] = delta;
   c_[1] = 1 - delta;
   implicit_= true;

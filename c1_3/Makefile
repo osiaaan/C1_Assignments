@@ -5,8 +5,8 @@ PLOTSCRIPTS=plotscript.gpl
 
 # generated files
 REPORT=report.pdf
-PLOTS=plot2_0.01.pdf plot2_0.1.pdf plot1_0.1.pdf plot1_0.01.pdf
-RESULTS=table_1_1 table_1_2 table_1_3 table_1_4 table_1_5 table_2_1 table_2_2 table_2_3 table_2_4 table_2_5 plot_1_0.010000.dat plot_1_0.100000.dat plot_2_0.010000.dat plot_2_0.100000.dat
+PLOTS=plot2_001.pdf plot2_01.pdf plot1_01.pdf plot1_001.pdf
+RESULTS=table_1_1.txt table_1_2.txt table_1_3.txt table_1_4.txt table_1_5.txt table_2_1.txt table_2_2.txt table_2_3.txt table_2_4.txt table_2_5.txt plot_1_0.010000.dat plot_1_0.100000.dat plot_2_0.010000.dat plot_2_0.100000.dat
 PROGRAM=myprogram
 OBJS=main.o
 

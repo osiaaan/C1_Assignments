@@ -1,5 +1,5 @@
 set terminal pdf
-set output 'plot2_0.01.pdf'
+set output 'plot2_001.pdf'
 set logscale y
 set xlabel "Time"
 

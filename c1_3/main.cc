@@ -55,7 +55,7 @@ void testing(int j, int k, int level, double tau)
 
     std::string testNum = std::to_string(j);
     std::string schemeNum = std::to_string(k);
-    std::string myStr = "table_" + testNum + "_" + schemeNum;
+    std::string myStr = "table_" + testNum + "_" + schemeNum + ".txt";
     std::ofstream myFile;
     myFile.open(myStr.c_str());
     const int numWidth = 20;
@@ -79,7 +79,7 @@ void testing(int j, int k, int level, double tau)
     {
       std::vector<std::vector<double>> vec = solve(model, sch[k-1], tau);
       double maxError = vec[2][0];
-      std::cout << "tau: " << tau << " " << "error: "<< maxError << " " << "counter: " << vec[2][1] << std::endl;
+      std::cout << "tau: " << std::left << std::setw(numWidth) << tau << " "  << "error: "<< std::left << std::setw(numWidth) << maxError << " " << "counter: " << std::left << std::setw(numWidth) << vec[2][1] << std::endl;
 
       if(i == 0)
       {

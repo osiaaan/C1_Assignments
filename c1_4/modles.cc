@@ -51,14 +51,14 @@ Vector HeatEquation::y0() const
   return y;
 }
 
-/*
-const SparseMatrix& HeatEquation::df(double t,const Vector &y) const
+const SparseMatrix HeatEquation::df(double t) const
 {
+  int N = N_;
   SparseMatrix A(N);
 
   double h = 1.0/double(N+1);
   double lo_hi = 1*t/(h*h);
-  double diag = -2*t/(h*h);
+  double diag = -3*t/(h*h);
 
   for(unsigned int i = 0; i < N ; ++i)
   {
@@ -69,8 +69,8 @@ const SparseMatrix& HeatEquation::df(double t,const Vector &y) const
     A.addEntry(i,i+1,lo_hi);
     A.addEntry(i+1,i,lo_hi);
   }
+  return A;
 }
-*/
 
 double HeatEquation::T() const
 {

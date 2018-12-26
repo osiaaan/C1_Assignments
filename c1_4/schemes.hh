@@ -39,32 +39,47 @@ public:
 
 	for (int s=0; s<stages_; ++s )
   {
-	  // compute k_s and store inside k[s]
+    //RK is of the form: U_{n+1} = U_n + hF_n
+
+    //This will be the value of sum_{j=1}^{i-1}a_{ij}K_j
     Vector sum = y;
     for(int j = 0; j < s; j++)
     {
       sum = sum + k[j]*(h*a(s,j));
     }
-	  if (a(s,s) == 0) // explicit case
+
+    //Check if the schem is implicit or not
+	  if (a(s,s) == 0)
     {
       if(c_[s] != 0)
       {
-        sum = model.f(c_[s]*h,sum);
-        k[s] = model.f(1,sum);
+        /*
+        Since we only know the value of U(t_n)
+        we use FE to predict the value of U(t_n + c_[s]*h)
+        */
+        sum = sum + model.f(c_[s]*h,sum); //This is FE
       }
-      else
-      {
-        k[s] = model.f(1,sum);
-      }
+      //This is f("t_n + c_s*h",sum)
+      k[s] = model.f(1,sum);
     }
     else
     {
-		  // implicit case
-		  // solve via Newton method
-      std::cout << "We'll deal with this later" << std::endl;
+      //First using FE to estimate
+      sum = sum + model.f(c_[s]*h,sum);
+      Vector error = model.f(1, sum + k[s]*(h*a(s,s)))  - k[s];
+      int it = 0;
+      //Now use Newton Raphson
+      while (error.maxNorm() > 1e-6 &&  it < 1000)
+      {
+        SparseMatrix J = model.df(1);
+        Vector E = J.GaussSeidel(error*(-1), k[s]);
+        k[s] = k[s] + E;
+        error = model.f(1, sum + k[s]*(h*a(s,s))) - k[s];
+        it++;
+     }
 	  }
 	  // Increment the return value by the current k[s]
-	  ret =ret + k[s]*(h*b_[s]);
+	  ret = ret + k[s]*(h*b_[s]);
 	}
     return ret;
   }
@@ -92,7 +107,17 @@ public:
   }
 };
 
-#endif
+class BE: public DIRK
+{
+public:
+
+  BE() : DIRK(1)
+  {
+	a(0,0) = 1.;
+	b_[0] = 1.;
+	c_[0] = 1.;
+  }
+};
 
 class Heun3: public DIRK
 {
@@ -110,3 +135,5 @@ public:
   c_[2] = double(2)/double(3);
   }
 };
+
+#endif

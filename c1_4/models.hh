@@ -11,7 +11,7 @@ public:
 
   Vector f(double t,const Vector &y) const;
 
-  const SparseMatrix& df(double t,const Vector &y) const;
+  const SparseMatrix df(double t) const;
 
   double T() const;
 

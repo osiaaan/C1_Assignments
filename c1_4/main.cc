@@ -15,7 +15,6 @@ Vector solve(const Model &model, const DIRK &scheme, double tau)
   {
     y =  scheme.evolve(y,t,tau,model);
     t += tau;
-    std::cout << t << std::endl;
   }
   std::cout << "Finished time integration at t=" << t << std::endl;
 
@@ -28,9 +27,9 @@ int main(int argc, char* argv[])
 
   // read parameters as command line arguments
   int N = 16;
-  double kappa = 1.0, tau = 0.0005;
+  double kappa = 1.0, tau = 0.0001;
   HeatEquation model(N, kappa);
-  Heun3 scheme;
+  BE scheme;
 
   Vector solver(N);
   solver = solve(model, scheme, tau);

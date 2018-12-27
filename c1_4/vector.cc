@@ -1,5 +1,6 @@
 #include <cassert>
 #include <cmath>
+#include <fstream>
 
 #include "vector.hh"
 
@@ -57,4 +58,13 @@ Vector Vector::operator*(double v) const {
 	ret[i] = (*this)[i]*v;
   }
   return ret;
+}
+
+void Vector::toFile(const std::string& filename, double L, double tau) {
+  std::ofstream file;
+  file.open(filename);
+  for ( int i = 0; i<size(); ++i ) {
+	file << tau << " " << ((double) i)/(size()-1)*L << " " << (*this)[i] << std::endl;
+  }
+  file.close();
 }

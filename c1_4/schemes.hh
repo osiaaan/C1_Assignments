@@ -39,17 +39,13 @@ public:
 
 	for (int s=0; s<stages_; ++s )
   {
-    //RK is of the form: U_{n+1} = U_n + hF_n
-
-    //This will be the value of sum_{j=1}^{i-1}a_{ij}K_j
+	  // compute k_s and store inside k[s]
     Vector sum = y;
     for(int j = 0; j < s; j++)
     {
       sum = sum + k[j]*(h*a(s,j));
     }
-
-    //Check if the schem is implicit or not
-	  if (a(s,s) == 0)
+	  if (a(s,s) == 0) // explicit case
     {
       if(c_[s] != 0)
       {
@@ -57,22 +53,25 @@ public:
         Since we only know the value of U(t_n)
         we use FE to predict the value of U(t_n + c_[s]*h)
         */
-        sum = sum + model.f(c_[s]*h,sum); //This is FE
+        sum = sum + model.f(c_[s]*h,sum); //FE
+        k[s] = model.f(1,sum);
       }
-      //This is f("t_n + c_s*h",sum)
       k[s] = model.f(1,sum);
     }
     else
     {
       //First using FE to estimate
       sum = sum + model.f(c_[s]*h,sum);
+
       Vector error = model.f(1, sum + k[s]*(h*a(s,s)))  - k[s];
       int it = 0;
-      //Now use Newton Raphson
-      while (error.maxNorm() > 1e-6 &&  it < 1000)
+
+      while (error.maxNorm() > 1e-6 &&  it < 2000)
       {
-        SparseMatrix J = model.df(1);
-        Vector E = J.GaussSeidel(error*(-1), k[s]);
+        Vector Error = error*(-1);
+        SparseMatrix D = model.df(1);
+
+        Vector E = D.GaussSeidel(Error, k[s]);
         k[s] = k[s] + E;
         error = model.f(1, sum + k[s]*(h*a(s,s))) - k[s];
         it++;

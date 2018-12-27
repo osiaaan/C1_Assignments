@@ -8,7 +8,7 @@
 class Vector : public std::vector<double> {
 public:
   typedef std::vector<double> Base;
-  
+
   Vector() : Base() {}
   Vector(int N) : Base(N) {}
   Vector(int N, double v) : Base(N, v) {}
@@ -20,6 +20,9 @@ public:
 
   double norm() const;
   double maxNorm() const;
+
+
+  void toFile(const std::string& filename, double L = 1.0, double tau = 0.0);
 };
 
 std::ostream& operator<<(std::ostream& s, const Vector& v);

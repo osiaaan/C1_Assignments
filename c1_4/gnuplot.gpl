@@ -1,0 +1,6 @@
+set terminal pdf
+set output 'plot.pdf'
+set dgrid3d 30,30
+set hidden3d
+
+splot "dat.dat" u 1:2:3 with lines

@@ -1,0 +1,12 @@
+set terminal pdf
+set output 'plot2.pdf'
+set dgrid3d 30,30
+set hidden3d
+
+set xlabel "Time"
+set ylabel "Space"
+set zlabel "U"
+
+set title "Approximation 2"
+
+splot "plot_1_0.000200.dat" u 1:2:3 with lines

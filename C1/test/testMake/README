@@ -1,0 +1,8 @@
+Included in this folder is a Makefile and other necessary files for the assignment.
+
+The user needs only to type 'make' into the terminal to reproduce the results I have.
+I have included my report as a pdf in case there is an issue with reproducing it.
+
+Note:
+On my last test, producing results for a 10,000x10,000 matrix ran slower than it had done previously. 
+Nevertheless, it should still compile in well under 5 minutes.

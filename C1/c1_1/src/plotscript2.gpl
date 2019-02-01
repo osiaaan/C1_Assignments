@@ -1,0 +1,17 @@
+set terminal pdf
+set output 'function2.pdf'
+set logscale
+
+set xlabel "Number of Iterations"
+
+set ylabel "Residual Error"
+
+set title "Residual Error over Iterations"
+set key reverse Left outside
+set grid
+
+plot "residual_lambda0.dat" using 1:2 with lines title "lambda = 0.01", \
+     "residual_lambda1.dat" using 1:2 with lines title "lambda = 0.1", \
+     "residual_lambda2.dat" using 1:2 with lines title "lambda = 1", \
+     "residual_lambda3.dat" using 1:2 with lines title "lambda = 10", \
+     "residual_lambda4.dat" using 1:2 with lines title "lambda = 100"
